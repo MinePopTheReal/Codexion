@@ -1,30 +1,28 @@
 NAME := codexion
 
 BUILDDIR := .build
-SRCSDIR := srcs
-OBJSDIR := $(BUILDDIR)/objs
-DEPSDIR := $(BUILDDIR)/deps
+SRCS_DIR := srcs
+OBJS_DIR := $(BUILDDIR)/objs
+DEPS_DIR := $(BUILDDIR)/deps
 
-SRCS := codexion.c \
-		parsing.c
-OBJS := $(patsubst $(SRCSDIR)/%.c, $(OBJSDIR)/%.o,$(SRCSDIR)/$(SRCS))
-DEPS := $(patsubst $(SRCSDIR)/%.c,$(DEPSDIR)/%.d,$(SRCSDIR)/$(SRCS))
+BASE_NAME := codexion parsing
+SRCS := $(addprefix $(SRCS_DIR)/, $(addsuffix .c, $(BASE_NAME)))
+OBJS := $(addprefix $(OBJS_DIR)/, $(addsuffix .o, $(BASE_NAME)))
+DEPS := $(addprefix $(DEPS_DIR)/, $(addsuffix .d, $(BASE_NAME)))
 
 DEPS_FLAGS := -MD -MF
 CFLAGS := -Wall -Wextra -Werror -pthread -Icoders -g3 # remove -g3
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) 
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-$(OBJSDIR):
-	mkdir -p $@
-$(DEPSDIR):
+$(OBJS_DIR) $(DEPS_DIR):
 	mkdir -p $@
 
-$(OBJSDIR)/%.o: $(SRCSDIR)/%.c Makefile | $(DEPSDIR) $(OBJSDIR)
-	$(CC) $(CFLAGS) -c $< -o $@ $(DEPS_FLAGS) $(DEPSDIR)/$*.d
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c Makefile | $(DEPS_DIR) $(OBJS_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(DEPS_FLAGS) $(DEPS_DIR)/$*.d
 
 clean:
 	$(RM) -rf $(BUILDDIR)
