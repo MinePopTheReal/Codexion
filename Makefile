@@ -5,7 +5,7 @@ SRCS_DIR := srcs
 OBJS_DIR := $(BUILDDIR)/objs
 DEPS_DIR := $(BUILDDIR)/deps
 
-BASE_NAME := codexion parsing
+BASE_NAME := codexion parsing coders codexion_utils
 SRCS := $(addprefix $(SRCS_DIR)/, $(addsuffix .c, $(BASE_NAME)))
 OBJS := $(addprefix $(OBJS_DIR)/, $(addsuffix .o, $(BASE_NAME)))
 DEPS := $(addprefix $(DEPS_DIR)/, $(addsuffix .d, $(BASE_NAME)))
