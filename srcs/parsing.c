@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:44:59 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/10 17:35:08 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/16 12:31:26 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 #include "codexion.h"
 
-static void set_value(char **argv, t_parsing_val *parse_value)
+static void	set_value(char **argv, t_parsing_val *parse_value)
 {
 	parse_value->number_of_coder = atoi(argv[1]);
 	parse_value->time_to_burnout = atoi(argv[2]);
@@ -32,7 +32,8 @@ static void set_value(char **argv, t_parsing_val *parse_value)
 	parse_value->dongle_cooldown = atoi(argv[7]);
 	parse_value->scheduler = argv[8];
 }
-static bool is_valid_number(char *parse_value)
+
+static bool	is_valid_number(char *parse_value)
 {
 	if (!parse_value)
 		return (false);
@@ -41,9 +42,9 @@ static bool is_valid_number(char *parse_value)
 	return (true);
 }
 
-bool parsing(int argc, char **argv, t_parsing_val *parse_value)
+bool	parsing(int argc, char **argv, t_parsing_val *parse_value)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (argc != 9)
