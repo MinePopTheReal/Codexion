@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/17 11:14:18 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/17 18:09:13 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,17 @@
 # define STRUCTS_H
 
 # include <pthread.h>
+# include <stdbool.h> 
 # include "enum.h"
+# include <pthread.h> 
 
-typedef struct s_parsing_val
+struct	s_global_data;
+struct	s_parsing;
+struct	s_dongle;
+struct	s_coder;
+
+
+struct s_parsing
 {
 	int		number_of_coder;
 	int		time_to_burnout;
@@ -26,25 +34,30 @@ typedef struct s_parsing_val
 	int		number_of_compiles;
 	int		dongle_cooldown;
 	t_algo	scheduler;
-}	t_parsing_val;
+};
 
-typedef struct s_dongle
+struct s_dongle
 {
 	int				id;
-	pthread_mutex_t	dongle;
-}	t_dongle;
+	bool			is_taken; // par forcement necessaire 
+	pthread_mutex_t	mutex_dongle;
+};
 
-typedef struct s_coder
+struct s_coder
 {
-	int			id;
-	t_dongle	*left_dongle;
-	t_dongle	*right_dongle;
-}	t_coder;
+	int						id;
+	struct s_dongle			*left_dongle;
+	struct s_dongle			*right_dongle;
+	struct s_global_data	*shared;
+	pthread_t				thread_coder;
+};
 
-typedef struct s_global_data
+struct s_global_data
 {
-	t_coder		*list_coders;
-	t_dongle	*list_dongles;
-}	t_global_data;
+	struct s_coder			*coders;
+	struct s_dongle			*dongles;
+	struct s_parsing		parse_result;
+	pthread_mutex_t			mutex_print;
+};
 
 #endif
