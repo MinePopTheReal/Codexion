@@ -6,35 +6,63 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/16 17:28:07 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:28:31 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../coders/codexion.h"
+#include "../coders/types.h"
+#include "../coders/colors.h"
+#include "../coders/prototypes.h"
+
+
+int	init(t_global_data *shared, int nb_coders)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_coders)
+	{
+		if (pthread_mutex_init((&shared->dongles[i].mutex_dongle), NULL) != 0)
+		{
+			print_error("initializing a mutex fails");
+			return (-1);
+		}
+		i++;
+	}
+	if (pthread_mutex_init((&shared->mutex_print), NULL) != 0)
+	{
+		print_error("initializing a mutex fails");
+		return (-1);
+	}
+	return (0);
+}
 
 int	main(int argc, char **argv )
 {
 	int				i;
-	t_parsing_val	parse_values;
-	t_global_data	global_data;
+	t_global_data	shared;
 	t_coder			*list_of_coder;
 
 	list_of_coder = NULL;
-	memset(&parse_values, 0, sizeof(parse_values));
-	if (!parsing(argc, argv, &parse_values))
+	memset(&shared.parse_result, 0, sizeof(t_parsing));
+	if (parsing(argc, argv, &shared.parse_result) == -1)
 		return (-1);
-	global_data.list_dongles = create_dongle_list(parse_values.number_of_coder);
-	global_data.list_coders = create_coders_list(
-			global_data.list_dongles, parse_values.number_of_coder
-			);
-	// i = 0;
-	// while (i < parse_values.number_of_coder)
-	// {
-	// 	printf("coder: %d have this dongle: left: %d, right: %d\n", 
-	// 		global_data.list_coders[i].id,
-	// 		global_data.list_coders[i].left_dongle->id,
-	// 		global_data.list_coders[i].right_dongle->id);
-	// 	i++;
-	// }
+	shared.dongles = create_dongle_list(shared.parse_result.number_of_coder);
+	shared.coders = create_coders_list(&shared);
+	if (init(&shared, shared.parse_result.number_of_coder) == -1)
+		return (-1);
+
+	i = 0;
+	while (i < shared.parse_result.number_of_coder)
+	{
+		pthread_create(&shared.coders[i].thread_coder, NULL, &routine, &shared.coders[i]);
+		i++;
+	}
+	i = 0;
+	while (i < shared.parse_result.number_of_coder)
+	{
+		pthread_join(shared.coders[i].thread_coder, NULL);
+		i++;
+	}
 	return (0);
 }
