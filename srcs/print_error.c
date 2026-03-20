@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   codexion_utils.c                                   :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/16 11:02:16 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/17 10:44:45 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/03/17 11:26:59 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/03/17 11:29:01 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../coders/.h"
+#include "../coders/colors.h"
+#include <stdio.h>
 
-// void	*ft_calloc(size_t n, size_t size)
-// {
-// 	unsigned char	*ptr;
-// 	void			*mem;
-// 	size_t			i;
-
-// 	i = 0;
-// 	if (size != 0 && (n > (size_t)-1 / size))
-// 		return (NULL);
-// 	mem = malloc(n * size);
-// 	if (!mem)
-// 		return (NULL);
-// 	ptr = (unsigned char *)mem;
-// 	while (i < n * size)
-// 		ptr[i++] = 0;
-// 	return (ptr);
-// }
+void	print_error(char *message)
+{
+	printf("[" BOLD RED "ERROR" RESET "]: %s", message);
+}

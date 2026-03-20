@@ -6,24 +6,16 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:44:59 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/17 11:15:16 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/17 17:35:24 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// number_of_coders 
-// time_to_burnout 
-// time_to_compile 
-// time_to_debug 
-// time_to_refactor 
-// number_of_compiles_required 
-// dongle_cooldown 
-// scheduler
-#include "../coders/structs.h"
+#include "../coders/types.h"
 #include "../coders/prototypes.h"
 #include "../coders/enum.h"
 
 
-static void	set_value(char **argv, t_parsing_val *parse_value)
+static void	set_value(char **argv, t_parsing *parse_value)
 {
 	parse_value->number_of_coder = atoi(argv[1]);
 	parse_value->time_to_burnout = atoi(argv[2]);
@@ -37,19 +29,28 @@ static void	set_value(char **argv, t_parsing_val *parse_value)
 static bool	is_valid_number(char *parse_value)
 {
 	if (!parse_value)
+	{
+		print_error("only positive integers are allowed");
 		return (false);
+	}
 	if (parse_value[0] == '-')
+	{
+		print_error("only positive integers are allowed");
 		return (false);
+	}
 	return (true);
 }
 
-int	parsing(int argc, char **argv, t_parsing_val *parse_value)
+int	parsing(int argc, char **argv, t_parsing *parse_value)
 {
 	int	i;
 
 	i = 0;
 	if (argc != 9)
+	{
+		print_error("some arguments are missing");
 		return (-1);
+	}
 	while (i < 8)
 	{
 		if (!is_valid_number(argv[i]))
@@ -61,7 +62,10 @@ int	parsing(int argc, char **argv, t_parsing_val *parse_value)
 	else if (strcmp(argv[i], "edf") == 0)
 		parse_value->scheduler = ALGO_EDF;
 	else
+	{
+		print_error("you can only choose between 'edf' and 'fifo'");
 		return (-1);
+	}
 	set_value(argv, parse_value);
 	return (0);
 }

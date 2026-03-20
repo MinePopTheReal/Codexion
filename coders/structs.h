@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/17 18:09:13 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/18 13:28:57 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ struct	s_global_data;
 struct	s_parsing;
 struct	s_dongle;
 struct	s_coder;
-
 
 struct s_parsing
 {
