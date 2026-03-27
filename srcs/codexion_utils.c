@@ -6,26 +6,17 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 11:02:16 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/17 10:44:45 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/27 14:46:48 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../coders/.h"
+#include "prototypes.h"
+#include "structs.h"
 
-// void	*ft_calloc(size_t n, size_t size)
-// {
-// 	unsigned char	*ptr;
-// 	void			*mem;
-// 	size_t			i;
+long long int	calculate_time(struct timeval s_time)
+{
+	long long int	time;
 
-// 	i = 0;
-// 	if (size != 0 && (n > (size_t)-1 / size))
-// 		return (NULL);
-// 	mem = malloc(n * size);
-// 	if (!mem)
-// 		return (NULL);
-// 	ptr = (unsigned char *)mem;
-// 	while (i < n * size)
-// 		ptr[i++] = 0;
-// 	return (ptr);
-// }
+	time = s_time.tv_sec * 1000 + s_time.tv_usec / 1000;
+	return (time);
+}

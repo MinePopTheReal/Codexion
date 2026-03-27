@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/18 13:24:12 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/27 18:28:38 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ int	init(t_global_data *shared, int nb_coders)
 			print_error("initializing a mutex fails");
 			return (-1);
 		}
+		if (pthread_mutex_init((&shared->coders[i].mutex_coder), NULL) != 0)
+		{
+			print_error("initializing a mutex fails");
+			return (-1);
+		}
 		i++;
 	}
 	if (pthread_mutex_init((&shared->mutex_print), NULL) != 0)
@@ -41,7 +46,9 @@ int	main(int argc, char **argv )
 {
 	int				i;
 	t_global_data	shared;
+	t_monitor		monitor;
 	t_coder			*list_of_coder;
+	struct timeval	time;
 
 	list_of_coder = NULL;
 	memset(&shared.parse_result, 0, sizeof(t_parsing));
@@ -55,14 +62,23 @@ int	main(int argc, char **argv )
 	i = 0;
 	while (i < shared.parse_result.number_of_coder)
 	{
+		gettimeofday(&time, NULL);
+		pthread_mutex_lock(&shared.coders[i].mutex_coder);
+		shared.coders[i].last_compile = calculate_time(time);
+		pthread_mutex_unlock(&shared.coders[i].mutex_coder);
+		// printf("last: %lld\n", shared.coders[i].last_compile);
 		pthread_create(&shared.coders[i].thread_coder, NULL, &routine, &shared.coders[i]);
 		i++;
 	}
+	pthread_create(&monitor.thread_monitor, NULL, &test_monitor, &shared);
+
 	i = 0;
+	pthread_join(monitor.thread_monitor, NULL);
 	while (i < shared.parse_result.number_of_coder)
 	{
 		pthread_join(shared.coders[i].thread_coder, NULL);
 		i++;
 	}
+	free_coders(&shared);
 	return (0);
 }

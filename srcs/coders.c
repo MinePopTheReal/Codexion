@@ -6,18 +6,18 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 10:18:02 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/18 11:29:26 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/27 18:30:38 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders/types.h"
 #include "../coders/prototypes.h" 
 
-// void	free_coders(t_coder coders)
-// {
-// 	// coders.
-// 	free(coders);
-// }
+void	free_coders(t_global_data *global_data)
+{
+	free(global_data->dongles);
+	free(global_data->coders);
+}
 
 t_coder	*create_coders_list(t_global_data *shared)
 {
@@ -30,7 +30,7 @@ t_coder	*create_coders_list(t_global_data *shared)
 		return (NULL);
 	while (i < shared->parse_result.number_of_coder)
 	{
-		coders[i].id = i;
+		coders[i].id = i;      
 		coders[i].shared = shared;
 		coders[i].left_dongle = &shared->dongles[i];
 		if (i < shared->parse_result.number_of_coder - 1)

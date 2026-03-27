@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/18 13:28:57 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/27 17:30:46 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <pthread.h>
 # include <stdbool.h> 
-# include "enum.h"
 # include <pthread.h> 
+# include "enum.h"
 
 struct	s_global_data;
 struct	s_parsing;
@@ -45,9 +45,12 @@ struct s_dongle
 struct s_coder
 {
 	int						id;
+	int						nb_compiles;
+	long long int			last_compile;
 	struct s_dongle			*left_dongle;
 	struct s_dongle			*right_dongle;
 	struct s_global_data	*shared;
+	pthread_mutex_t			mutex_coder;
 	pthread_t				thread_coder;
 };
 
@@ -56,7 +59,14 @@ struct s_global_data
 	struct s_coder			*coders;
 	struct s_dongle			*dongles;
 	struct s_parsing		parse_result;
+	bool					is_run;
 	pthread_mutex_t			mutex_print;
 };
+
+struct s_monitor
+{
+	pthread_t	thread_monitor;
+};
+
 
 #endif
