@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/27 18:28:38 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/29 15:40:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,16 @@ int	main(int argc, char **argv )
 	int				i;
 	t_global_data	shared;
 	t_monitor		monitor;
-	t_coder			*list_of_coder;
+	// t_coder			*list_of_coder;
 	struct timeval	time;
 
-	list_of_coder = NULL;
+	// list_of_coder = NULL;
 	memset(&shared.parse_result, 0, sizeof(t_parsing));
 	if (parsing(argc, argv, &shared.parse_result) == -1)
 		return (-1);
 	shared.dongles = create_dongle_list(shared.parse_result.number_of_coder);
 	shared.coders = create_coders_list(&shared);
+	shared.is_run = true;
 	if (init(&shared, shared.parse_result.number_of_coder) == -1)
 		return (-1);
 
@@ -64,7 +65,7 @@ int	main(int argc, char **argv )
 	{
 		gettimeofday(&time, NULL);
 		pthread_mutex_lock(&shared.coders[i].mutex_coder);
-		shared.coders[i].last_compile = calculate_time(time);
+		shared.coders[i].last_compile = get_curr_time_from_start();
 		pthread_mutex_unlock(&shared.coders[i].mutex_coder);
 		// printf("last: %lld\n", shared.coders[i].last_compile);
 		pthread_create(&shared.coders[i].thread_coder, NULL, &routine, &shared.coders[i]);

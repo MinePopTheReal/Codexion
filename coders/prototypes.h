@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prototypes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 12:29:45 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/27 15:12:04 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/29 15:40:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void            free_coders(t_global_data *global_data);
 void	        *test_monitor(void *ptr);
 
 //utils
-long long int	calculate_time(struct timeval s_time);
+long long int	get_curr_time_from_start();
+void            print_state(int coder_id, char *state);
 
 
 #endif

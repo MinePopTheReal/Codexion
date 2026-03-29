@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 10:46:22 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/27 18:58:14 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/29 15:42:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,22 @@ void	*routine(void *ptr)
 	gettimeofday(&time, NULL);
 
 	pthread_mutex_lock(&coder->mutex_coder);
-	coder->last_compile = calculate_time(time);
+	coder->last_compile = get_curr_time_from_start();
 	pthread_mutex_unlock(&coder->mutex_coder);
-	while (coder->nb_compiles < coder->shared->parse_result.number_of_compiles)
+	while (coder->nb_compiles < coder->shared->parse_result.number_of_compiles && coder->shared->is_run)
 	{
 		if (coder->id % 2 == 1)
 			usleep(500);
-		// while 
-		// Example of ordering by address
+		
 		t_dongle *first = (coder->left_dongle < coder->right_dongle) ? coder->left_dongle : coder->right_dongle;
 		t_dongle *second = (coder->left_dongle < coder->right_dongle) ? coder->right_dongle : coder->left_dongle;
 		pthread_mutex_lock(&first->mutex_dongle);
 		pthread_mutex_lock(&second->mutex_dongle);
 		coder->left_dongle->is_taken = true;
+		print_state(coder->id, "has taken a dongle");
 		coder->right_dongle->is_taken = true;
+		print_state(coder->id, "has taken a dongle");
 		pthread_mutex_lock((&coder->shared->mutex_print));
-		printf("Coder: %d, dongle stat:\nleft:\t%d\nright:\t%d\n\n",
-			coder->id,
-			coder->left_dongle->is_taken,
-			coder->right_dongle->is_taken);
 		compile(coder);
 		coder->left_dongle->is_taken = false;
 		coder->right_dongle->is_taken = false;
@@ -52,15 +49,15 @@ void	*routine(void *ptr)
 	}
 	return (NULL);
 }
-
 void	compile(t_coder *coder)
 {
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	pthread_mutex_lock(&coder->mutex_coder);
-	coder->last_compile = calculate_time(time);
+	coder->last_compile = get_curr_time_from_start();
 	pthread_mutex_unlock(&coder->mutex_coder);
+	print_state(coder->id, "is compiling");
 	coder->nb_compiles += 1;
 	usleep(coder->shared->parse_result.time_to_compile * 1000); //petite opti possible
 }
