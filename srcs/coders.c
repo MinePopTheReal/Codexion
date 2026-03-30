@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 10:18:02 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/27 18:30:38 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/30 13:46:48 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_coder	*create_coders_list(t_global_data *shared)
 		return (NULL);
 	while (i < shared->parse_result.number_of_coder)
 	{
-		coders[i].id = i;      
+		coders[i].id = i + 1;
 		coders[i].shared = shared;
 		coders[i].left_dongle = &shared->dongles[i];
 		if (i < shared->parse_result.number_of_coder - 1)

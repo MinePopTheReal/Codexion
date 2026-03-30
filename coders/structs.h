@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/27 17:30:46 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/30 13:25:59 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ struct s_global_data
 	struct s_dongle			*dongles;
 	struct s_parsing		parse_result;
 	bool					is_run;
+	pthread_mutex_t			mutex_is_run;
 	pthread_mutex_t			mutex_print;
 };
 

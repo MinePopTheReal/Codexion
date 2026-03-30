@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/29 15:40:55 by marvin           ###   ########.fr       */
+/*   Updated: 2026/03/30 13:33:48 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int	init(t_global_data *shared, int nb_coders)
 		print_error("initializing a mutex fails");
 		return (-1);
 	}
+	if (pthread_mutex_init((&shared->mutex_is_run), NULL) != 0)
+	{
+		print_error("initializing a mutex fails");
+		return (-1);
+	}
 	return (0);
 }
 
@@ -47,10 +52,8 @@ int	main(int argc, char **argv )
 	int				i;
 	t_global_data	shared;
 	t_monitor		monitor;
-	// t_coder			*list_of_coder;
 	struct timeval	time;
 
-	// list_of_coder = NULL;
 	memset(&shared.parse_result, 0, sizeof(t_parsing));
 	if (parsing(argc, argv, &shared.parse_result) == -1)
 		return (-1);
@@ -67,7 +70,6 @@ int	main(int argc, char **argv )
 		pthread_mutex_lock(&shared.coders[i].mutex_coder);
 		shared.coders[i].last_compile = get_curr_time_from_start();
 		pthread_mutex_unlock(&shared.coders[i].mutex_coder);
-		// printf("last: %lld\n", shared.coders[i].last_compile);
 		pthread_create(&shared.coders[i].thread_coder, NULL, &routine, &shared.coders[i]);
 		i++;
 	}

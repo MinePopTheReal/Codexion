@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 11:26:59 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/17 11:29:01 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/03/30 18:48:55 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 
 void	print_error(char *message)
 {
-	printf("[" BOLD RED "ERROR" RESET "]: %s", message);
+	fprintf(stderr, "[" BOLD RED "ERROR" RESET "]: %s", message);
 }
