@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/30 13:25:59 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/01 11:11:35 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <pthread.h> 
 # include "enum.h"
 
+struct	s_waiting_queue;
 struct	s_global_data;
 struct	s_parsing;
 struct	s_dongle;
@@ -35,11 +36,20 @@ struct s_parsing
 	t_algo	scheduler;
 };
 
+struct	s_waiting_queue
+{
+	struct s_coder			*coder;
+	struct s_waiting_queue	*next;
+	struct s_waiting_queue	*prev;
+};
+
 struct s_dongle
 {
-	int				id;
-	bool			is_taken; // par forcement necessaire 
-	pthread_mutex_t	mutex_dongle;
+	int						id;
+	// bool			is_taken; // par forcement necessaire 
+	long long int			drop_time;
+	struct s_waiting_queue	*waiting_queue;
+	pthread_mutex_t			mutex_dongle;
 };
 
 struct s_coder
@@ -50,16 +60,16 @@ struct s_coder
 	struct s_dongle			*left_dongle;
 	struct s_dongle			*right_dongle;
 	struct s_global_data	*shared;
-	pthread_mutex_t			mutex_coder;
 	pthread_t				thread_coder;
+	pthread_mutex_t			mutex_coder;
 };
 
 struct s_global_data
 {
+	bool					is_run;
 	struct s_coder			*coders;
 	struct s_dongle			*dongles;
 	struct s_parsing		parse_result;
-	bool					is_run;
 	pthread_mutex_t			mutex_is_run;
 	pthread_mutex_t			mutex_print;
 };
@@ -68,6 +78,5 @@ struct s_monitor
 {
 	pthread_t	thread_monitor;
 };
-
 
 #endif

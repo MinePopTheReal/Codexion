@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 12:29:45 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/30 14:29:31 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/01 17:24:48 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ long long int	get_curr_time_from_start(void);
 bool			print_state(int coder_id, char *state, t_coder *coder);
 bool			smart_sleep(long long int time_ms, t_coder *coder);
 
+// waiting_queue
+void			append_queue(t_waiting_queue **queue, t_coder *coder);
+t_coder			*first_pop_queue(t_waiting_queue **queue);
+void			free_queues(t_global_data *shared);
 
 
 #endif
