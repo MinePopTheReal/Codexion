@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   codexion_utils.c                                   :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 11:02:16 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/30 15:59:38 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/03 17:35:09 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 #include "structs.h"
+
+bool	get_isrun(t_coder *coder)
+{
+	bool	is_run;
+
+	pthread_mutex_lock(&coder->shared->mutex_is_run);
+	is_run = coder->shared->is_run;
+	pthread_mutex_unlock(&coder->shared->mutex_is_run);
+	return (is_run);
+}
 
 long long int	get_curr_time_from_start(void)
 {
@@ -31,9 +41,7 @@ bool	print_state(int coder_id, char *state, t_coder *coder)
 	long long int	time_ms;
 	bool			cpy_is_run;
 
-	pthread_mutex_lock(&coder->shared->mutex_is_run);
-	cpy_is_run = coder->shared->is_run;
-	pthread_mutex_unlock(&coder->shared->mutex_is_run);
+	cpy_is_run = get_isrun(coder);
 	time_ms = get_curr_time_from_start();
 	if (!cpy_is_run)
 		return (false);
@@ -47,7 +55,6 @@ bool	smart_sleep(long long int time_ms, t_coder *coder)
 {
 	int				step;
 	long long int	time_count_ms;
-	bool			cpy_is_run;
 	long long int	start;
 
 	step = 50;
@@ -56,16 +63,11 @@ bool	smart_sleep(long long int time_ms, t_coder *coder)
 	time_count_ms = get_curr_time_from_start();
 	while (start + time_ms > time_count_ms)
 	{
-		pthread_mutex_lock(&coder->shared->mutex_is_run);
-		cpy_is_run = coder->shared->is_run;
-		pthread_mutex_unlock(&coder->shared->mutex_is_run);
-		if (!cpy_is_run)
-		{
+		if (!get_isrun(coder))
 			return (false);
-		}
 		else if (time_ms - time_count_ms < step)
 			step = time_ms - time_count_ms;
-		usleep(step * 1000);
+		usleep(500);
 		time_count_ms = get_curr_time_from_start();
 	}
 	return (true);

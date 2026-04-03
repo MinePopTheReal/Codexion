@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 10:41:17 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/01 16:13:09 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/03 19:00:10 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ t_coder	*first_pop_queue(t_waiting_queue **queue)
 		return (NULL);
 	temp = *queue;
 	coder = temp->coder;
+	// pthread_mutex_lock(&coder->shared->mutex_print);
+	// printf("%d\n", coder->id);
+	// pthread_mutex_unlock(&coder->shared->mutex_print);
 	*queue = temp->next;
 	if (*queue)
 		(*queue)->prev = NULL;

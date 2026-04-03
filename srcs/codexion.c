@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/03/30 13:33:48 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/03 11:10:33 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,35 @@
 #include "../coders/colors.h"
 #include "../coders/prototypes.h"
 
+bool	mutex_init(pthread_mutex_t	*mutex)
+{
+	if (pthread_mutex_init(mutex, NULL) != 0)
+	{
+		print_error("initializing a mutex fails");
+		return (false);
+	}
+	return (true);
+}
 
-int	init(t_global_data *shared, int nb_coders)
+bool	init(t_global_data *shared)
 {
 	int	i;
 
 	i = 0;
-	while (i < nb_coders)
+	while (i < shared->parse_result.number_of_coder)
 	{
-		if (pthread_mutex_init((&shared->dongles[i].mutex_dongle), NULL) != 0)
-		{
-			print_error("initializing a mutex fails");
-			return (-1);
-		}
-		if (pthread_mutex_init((&shared->coders[i].mutex_coder), NULL) != 0)
-		{
-			print_error("initializing a mutex fails");
-			return (-1);
-		}
+		if (!mutex_init(&shared->dongles[i].mutex_dongle))
+			return (false);
+		if (!mutex_init(&shared->coders[i].mutex_coder))
+			return (false);
+		shared->dongles[i].waiting_queue = NULL;
 		i++;
 	}
-	if (pthread_mutex_init((&shared->mutex_print), NULL) != 0)
-	{
-		print_error("initializing a mutex fails");
-		return (-1);
-	}
-	if (pthread_mutex_init((&shared->mutex_is_run), NULL) != 0)
-	{
-		print_error("initializing a mutex fails");
-		return (-1);
-	}
-	return (0);
+	if (!mutex_init(&shared->mutex_print))
+		return (false);
+	if (!mutex_init(&shared->mutex_is_run))
+		return (false);
+	return (true);
 }
 
 int	main(int argc, char **argv )
@@ -52,7 +50,6 @@ int	main(int argc, char **argv )
 	int				i;
 	t_global_data	shared;
 	t_monitor		monitor;
-	struct timeval	time;
 
 	memset(&shared.parse_result, 0, sizeof(t_parsing));
 	if (parsing(argc, argv, &shared.parse_result) == -1)
@@ -60,13 +57,14 @@ int	main(int argc, char **argv )
 	shared.dongles = create_dongle_list(shared.parse_result.number_of_coder);
 	shared.coders = create_coders_list(&shared);
 	shared.is_run = true;
-	if (init(&shared, shared.parse_result.number_of_coder) == -1)
+	if (!init(&shared))
 		return (-1);
-
 	i = 0;
 	while (i < shared.parse_result.number_of_coder)
 	{
-		gettimeofday(&time, NULL);
+		// shared.dongles[i].waiting_queue[0] = shared.coders[i];
+		// shared.dongles[i].waiting_queue[1] = shared.coders[(shared.parse_result.number_of_coder + i - 1) % shared.parse_result.number_of_coder];
+		// printf("%d : %d %d\n", shared.dongles[i].id, shared.dongles[i].waiting_queue[0].id, shared.dongles[i].waiting_queue[1].id);
 		pthread_mutex_lock(&shared.coders[i].mutex_coder);
 		shared.coders[i].last_compile = get_curr_time_from_start();
 		pthread_mutex_unlock(&shared.coders[i].mutex_coder);
@@ -74,14 +72,14 @@ int	main(int argc, char **argv )
 		i++;
 	}
 	pthread_create(&monitor.thread_monitor, NULL, &test_monitor, &shared);
-
-	i = 0;
 	pthread_join(monitor.thread_monitor, NULL);
+	i = 0;
 	while (i < shared.parse_result.number_of_coder)
 	{
 		pthread_join(shared.coders[i].thread_coder, NULL);
 		i++;
 	}
 	free_coders(&shared);
+	free_queues(&shared);
 	return (0);
 }
