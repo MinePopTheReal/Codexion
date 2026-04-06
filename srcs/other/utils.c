@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 11:02:16 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/03 17:35:09 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/06 14:12:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 #include "structs.h"
 
-bool	get_isrun(t_coder *coder)
+bool	get_is_run(t_coder *coder)
 {
 	bool	is_run;
 
@@ -41,7 +41,7 @@ bool	print_state(int coder_id, char *state, t_coder *coder)
 	long long int	time_ms;
 	bool			cpy_is_run;
 
-	cpy_is_run = get_isrun(coder);
+	cpy_is_run = get_is_run(coder);
 	time_ms = get_curr_time_from_start();
 	if (!cpy_is_run)
 		return (false);
@@ -63,7 +63,7 @@ bool	smart_sleep(long long int time_ms, t_coder *coder)
 	time_count_ms = get_curr_time_from_start();
 	while (start + time_ms > time_count_ms)
 	{
-		if (!get_isrun(coder))
+		if (!get_is_run(coder))
 			return (false);
 		else if (time_ms - time_count_ms < step)
 			step = time_ms - time_count_ms;

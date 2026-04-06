@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   waiting_queue.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 10:41:17 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/03 19:00:10 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/06 14:40:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ t_coder	*first_pop_queue(t_waiting_queue **queue)
 		return (NULL);
 	temp = *queue;
 	coder = temp->coder;
-	// pthread_mutex_lock(&coder->shared->mutex_print);
-	// printf("%d\n", coder->id);
-	// pthread_mutex_unlock(&coder->shared->mutex_print);
 	*queue = temp->next;
 	if (*queue)
 		(*queue)->prev = NULL;
@@ -91,20 +88,3 @@ void	free_queues(t_global_data *shared)
 		i++;
 	}
 }
-
-// int	main(void)
-// {
-// 	t_waiting_queue	*queue = NULL;
-// 	t_coder			coder;
-// 	t_coder			coder2;
-// 	t_coder			*temp;
-
-// 	coder.id = 1;
-// 	coder2.id = 2;
-// 	append_queue(&queue, &coder);
-// 	append_queue(&queue, &coder2);
-// 	printf("coder1: %d, coder2: %d\n", queue->coder->id, queue->next->coder->id);
-// 	temp = first_pop_queue(&queue);
-// 	printf("suppr: %d, here: %d\n", temp->id, queue->coder->id);
-// 	return (1);
-// }

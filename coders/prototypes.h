@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prototypes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 12:29:45 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/01 17:24:48 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/06 18:52:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,21 @@ t_coder			*create_coders_list(t_global_data *shared);
 
 // parsing
 int				parsing(int argc, char **argv, t_parsing *parse_value);
-
-// print error
 void			print_error(char *message);
 
-//routine
+//actions
 void			*routine(void *ptr);
+bool	        debug(t_coder *coder);
+bool	        refactor(t_coder *coder);
 bool			compile(t_coder *coder);
+bool	        actions(t_coder *coder, t_dongle *first, t_dongle *second);
+bool            taken_dongles(t_coder *coder, t_dongle *first, t_dongle *second);
+void            release_dongles(t_dongle *first, t_dongle *second);
+void            get_first_second(t_coder *coder, t_dongle **first, t_dongle **second);
+void	        append_both(t_coder *coder, t_dongle *first, t_dongle *second);
+bool 	        is_done(t_coder *coder);
+bool	        wait_dongle(t_coder *coder, t_dongle *first, t_dongle *second);
+bool	        can_i_take(t_coder *coder, t_dongle *first, t_dongle *second);
 
 //free
 void			free_coders(t_global_data *global_data);
@@ -52,6 +60,5 @@ bool			smart_sleep(long long int time_ms, t_coder *coder);
 void			append_queue(t_waiting_queue **queue, t_coder *coder);
 t_coder			*first_pop_queue(t_waiting_queue **queue);
 void			free_queues(t_global_data *shared);
-
 
 #endif
