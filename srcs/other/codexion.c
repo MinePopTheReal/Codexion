@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/06 19:44:56 by marvin           ###   ########.fr       */
+/*   Updated: 2026/04/06 22:49:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../coders/types.h"
-#include "../coders/colors.h"
-#include "../coders/prototypes.h"
+#include "types.h"
+#include "colors.h"
+#include "prototypes.h"
 
 bool	mutex_init(pthread_mutex_t	*mutex)
 {
@@ -62,9 +62,6 @@ int	main(int argc, char **argv )
 	i = 0;
 	while (i < shared.parse_result.number_of_coder)
 	{
-		// shared.dongles[i].waiting_queue[0] = shared.coders[i];
-		// shared.dongles[i].waiting_queue[1] = shared.coders[(shared.parse_result.number_of_coder + i - 1) % shared.parse_result.number_of_coder];
-		// printf("%d : %d %d\n", shared.dongles[i].id, shared.dongles[i].waiting_queue[0].id, shared.dongles[i].waiting_queue[1].id);
 		pthread_mutex_lock(&shared.coders[i].mutex_coder);
 		shared.coders[i].last_compile = get_curr_time_from_start();
 		pthread_mutex_unlock(&shared.coders[i].mutex_coder);

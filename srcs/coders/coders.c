@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 10:18:02 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/06 17:58:45 by marvin           ###   ########.fr       */
+/*   Updated: 2026/04/06 23:52:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_dongle	*create_dongle_list(int nb_coder)
 		return (NULL);
 	while (i < nb_coder)
 	{
+		dongles[i].release_time = -1;
 		dongles[i].id = i + 1;
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/03 17:00:08 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:50:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ struct s_dongle
 {
 	int						id;
 	// bool			is_taken; // par forcement necessaire 
-	long long int			drop_time;
+	long long int			release_time;
 	struct s_waiting_queue	*waiting_queue;
 	pthread_mutex_t			mutex_dongle;
 };
