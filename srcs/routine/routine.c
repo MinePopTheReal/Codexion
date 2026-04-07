@@ -29,6 +29,8 @@ void	*routine(void *ptr)
 	get_first_second(coder, &first, &second);
 	if (coder->id % 2 == 0)
 		usleep(50);
+	if (second == first)
+		return (NULL);
 	append_both(coder, first, second);
 	while (true)
 	{
