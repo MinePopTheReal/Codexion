@@ -5,26 +5,30 @@ SRCS_DIR := srcs
 OBJS_DIR := $(BUILDDIR)/objs
 DEPS_DIR := $(BUILDDIR)/deps
 
+BASE_NAME := parsing \
+			print_error \
+			coders \
+			monitor \
+			monitor_utils \
+			actions \
+			compile \
+			debug \
+			refactor \
+			routine \
+			taken_dongles \
+			routine_utils \
+			append \
+			first_pop \
+			free_queue \
+			last_coder \
+			new_node \
+			codexion \
+			other_utils
 
-BASENAME_PARSING := parsing print_error
-BASENAME_CODERS := coders
-BASENAME_MONITOR := monitor utils
-BASENAME_ROUTINE := actions compile debug refactor routine taken_dongles utils
-BASENAME_QUEUE := append first_pop free_queue last_coder new_node
-OTHER_FILE_BASENAME := codexion utils
-BASE_NAME := $(BASENAME_PARSING) $(BASENAME_CODERS) $(BASENAME_MONITOR) $(BASENAME_ROUTINE) $(OTHER_FILE_BASENAME)
-
-SRCS_BASENAME := \
-	$(addprefix $(SRCS_DIR)/other/, $(OTHER_FILE_BASENAME)) \
-	$(addprefix $(SRCS_DIR)/parsing/, $(BASENAME_PARSING)) \
-	$(addprefix $(SRCS_DIR)/monitor/, $(BASENAME_MONITOR)) \
-	$(addprefix $(SRCS_DIR)/routine/, $(BASENAME_ROUTINE)) \
-	$(addprefix $(SRCS_DIR)/coders/, $(BASENAME_CODERS)) \
-	$(addprefix $(SRCS_DIR)/queue/, $(BASENAME_QUEUE))
-
-SRCS := $(addsuffix .c, $(SRCS_BASENAME))
-OBJS := $(addprefix $(OBJS_DIR)/, $(addsuffix .o, $(SRCS_BASENAME)))
-DEPS := $(addprefix $(DEPS_DIR)/, $(addsuffix .d, $(SRCS_BASENAME)))
+VPATH := $(SRCS_DIR):$(SRCS_DIR)/parsing:$(SRCS_DIR)/monitor:$(SRCS_DIR)/routine:$(SRCS_DIR)/queue:$(SRCS_DIR)/other:$(SRCS_DIR)/coders
+SRCS := $(addsuffix .c, $(BASE_NAME))
+OBJS := $(addprefix $(OBJS_DIR)/, $(addsuffix .o, $(BASE_NAME)))
+DEPS := $(addprefix $(DEPS_DIR)/, $(addsuffix .d, $(BASE_NAME)))
 
 DEPS_FLAGS := -MD -MF
 CFLAGS := -Wall -Wextra -Werror -pthread -Icoders -g3 # remove -g3

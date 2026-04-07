@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prototypes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 12:29:45 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/06 18:52:06 by marvin           ###   ########.fr       */
+/*   Updated: 2026/04/07 18:49:14 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void			free_coders(t_global_data *global_data);
 
 //monitor
 void			*test_monitor(void *ptr);
+bool	        sim_is_finish(t_global_data *shared);
 
 //utils
 long long int	get_curr_time_from_start(void);
@@ -60,5 +61,7 @@ bool			smart_sleep(long long int time_ms, t_coder *coder);
 void			append_queue(t_waiting_queue **queue, t_coder *coder);
 t_coder			*first_pop_queue(t_waiting_queue **queue);
 void			free_queues(t_global_data *shared);
+t_waiting_queue	*last_coder(t_waiting_queue *queue);
+t_waiting_queue	*new_node(void);
 
 #endif

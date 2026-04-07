@@ -19,9 +19,9 @@ bool	compile(t_coder *coder)
 	bool			state;
 
 	state = true;
+	pthread_mutex_lock(&coder->mutex_coder);
 	if (!print_state(coder->id, "is compiling", coder))
 		return (false);
-	pthread_mutex_lock(&coder->mutex_coder);
 	coder->last_compile = get_curr_time_from_start();
 	coder->nb_compiles += 1;
 	compile_time = coder->shared->parse_result.time_to_compile;

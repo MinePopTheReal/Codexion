@@ -13,6 +13,22 @@
 #include <prototypes.h>
 #include <types.h>
 
+static bool	check_cooldown(t_coder *coder, t_dongle *first, t_dongle *second)
+{
+	bool	state;
+
+	state = true;
+	if (!(first->release_time == -1) && \
+get_curr_time_from_start() - first->release_time < \
+coder->shared->parse_result.dongle_cooldown)
+		state = false;
+	else if (!(second->release_time == -1) && \
+get_curr_time_from_start() - second->release_time < \
+coder->shared->parse_result.dongle_cooldown)
+		state = false;
+	return (state);
+}
+
 bool	can_i_take(t_coder *coder, t_dongle *first, t_dongle *second)
 {
 	bool	i_can;
@@ -21,7 +37,8 @@ bool	can_i_take(t_coder *coder, t_dongle *first, t_dongle *second)
 	pthread_mutex_lock(&first->mutex_dongle);
 	pthread_mutex_lock(&second->mutex_dongle);
 	if (coder != first->waiting_queue->coder || \
-coder != second->waiting_queue->coder)
+coder != second->waiting_queue->coder || \
+!check_cooldown(coder, first, second))
 		i_can = false;
 	pthread_mutex_unlock(&first->mutex_dongle);
 	pthread_mutex_unlock(&second->mutex_dongle);
@@ -40,10 +57,10 @@ void	append_both(t_coder *coder, t_dongle *first, t_dongle *second)
 
 void	release_dongles(t_dongle *first, t_dongle *second)
 {
-	pthread_mutex_unlock(&first->mutex_dongle);
 	first->release_time = get_curr_time_from_start();
-	pthread_mutex_unlock(&second->mutex_dongle);
+	pthread_mutex_unlock(&first->mutex_dongle);
 	second->release_time = get_curr_time_from_start();
+	pthread_mutex_unlock(&second->mutex_dongle);
 
 }
 
@@ -73,24 +90,12 @@ bool 	is_done(t_coder *coder)
 	return (state);
 }
 
-bool	check_cooldown_dongles(t_coder *coder, t_dongle *first, t_dongle *second)
-{
-	bool	state;
-
-	state = true;
-	if (!(first->release_time == -1) && get_curr_time_from_start() - first->release_time < coder->shared->parse_result.dongle_cooldown)
-		state = false;
-	else if (!(second->release_time == -1) && get_curr_time_from_start() - second->release_time < coder->shared->parse_result.dongle_cooldown)
-		state = false;
-	return (state);
-}	
-
 bool	wait_dongle(t_coder *coder, t_dongle *first, t_dongle *second)
 {
 	bool	state;
 
 	state = true;
-	while (!can_i_take(coder, first, second) || !check_cooldown_dongles(coder, first, second))
+	while (!can_i_take(coder, first, second))
 	{
 		if (!smart_sleep(1, coder))
 			state = false;

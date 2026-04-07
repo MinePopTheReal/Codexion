@@ -32,6 +32,7 @@ void	*routine(void *ptr)
 	append_both(coder, first, second);
 	while (true)
 	{
+		// printf("sigma clat");
 		if (!is_done(coder))
 			break ;
 		if (!wait_dongle(coder, first, second))

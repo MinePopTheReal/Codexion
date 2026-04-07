@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   refactor.c                                         :+:      :+:    :+:   */
+/*   taken_dongles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/06 14:20:02 by marvin            #+#    #+#             */
-/*   Updated: 2026/04/06 14:20:02 by marvin           ###   ########.fr       */
+/*   Created: 2026/04/07 11:52:29 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/07 11:52:29 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,15 @@ bool	taken_dongles(t_coder *coder, t_dongle *first, t_dongle *second)
 	pthread_mutex_lock(&second->mutex_dongle);
 	if (!print_state(coder->id, "has taken a dongle", coder))
 	{
-		release_dongles(first, second);
+		pthread_mutex_unlock(&first->mutex_dongle);
+		pthread_mutex_unlock(&second->mutex_dongle);
 		return (false);
 	}
 	first_pop_queue(&first->waiting_queue);
 	first_pop_queue(&second->waiting_queue);
 	pthread_mutex_lock(&coder->mutex_coder);
-	if ((coder->nb_compiles < coder->shared->parse_result.number_of_compiles - 1))
+	if ((coder->nb_compiles < \
+coder->shared->parse_result.number_of_compiles - 1))
 	{
 		append_queue(&first->waiting_queue, coder);
 		append_queue(&second->waiting_queue, coder);

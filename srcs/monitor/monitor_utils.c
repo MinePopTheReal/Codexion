@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/18 10:46:22 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/07 11:58:50 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/07 14:54:43 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/07 16:43:24 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
-#include "prototypes.h"
+#include <prototypes.h>
+#include <types.h>
 
-bool	actions(t_coder *coder, t_dongle *first, t_dongle *second)
+bool	sim_is_finish(t_global_data *shared)
 {
 	bool	state;
+	int		i;
 
+	i = 0;
 	state = true;
-	if (taken_dongles(coder, first, second))
+	while (i < shared->parse_result.number_of_coder)
 	{
-		if (!compile(coder))
+		if (shared->coders[i].nb_compiles < \
+shared->parse_result.number_of_compiles)
 			state = false;
-		release_dongles(first, second);
+		i++;
 	}
-	else
-		state = false;
-	if (!debug(coder))
-		state = false;
-	if (!refactor(coder))
-		state = false;
 	return (state);
 }
