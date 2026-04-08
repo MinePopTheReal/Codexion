@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:26 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/07 19:51:30 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/08 18:15:04 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int				parsing(int argc, char **argv, t_parsing *parse_value);
 void			print_error(char *message);
 
 //actions
+bool	check_cooldown(t_coder *coder, t_dongle *first, t_dongle *second);
 void			*routine(void *ptr);
 bool	        debug(t_coder *coder);
 bool	        refactor(t_coder *coder);
@@ -44,6 +45,7 @@ void	        append_both(t_coder *coder, t_dongle *first, t_dongle *second);
 bool 	        is_done(t_coder *coder);
 bool	        wait_dongle(t_coder *coder, t_dongle *first, t_dongle *second);
 bool	        can_i_take(t_coder *coder, t_dongle *first, t_dongle *second);
+void	        rotate(t_coder *coder, t_waiting_queue **queue);
 
 //free
 void			free_coders(t_global_data *global_data);
@@ -58,6 +60,7 @@ bool			print_state(int coder_id, char *state, t_coder *coder);
 bool			smart_sleep(long long int time_ms, t_coder *coder);
 
 // waiting_queue
+bool            priority(t_coder *first, t_coder *second, t_parsing	*parsing);
 void			append_queue(t_waiting_queue **queue, t_coder *coder);
 t_coder			*first_pop_queue(t_waiting_queue **queue);
 void			free_queues(t_global_data *shared);

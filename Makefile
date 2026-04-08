@@ -23,7 +23,9 @@ BASE_NAME := parsing \
 			last_coder \
 			new_node \
 			codexion \
-			other_utils
+			other_utils \
+			priority \
+			can_i_take
 
 VPATH := $(SRCS_DIR):$(SRCS_DIR)/parsing:$(SRCS_DIR)/monitor:$(SRCS_DIR)/routine:$(SRCS_DIR)/queue:$(SRCS_DIR)/other:$(SRCS_DIR)/coders
 SRCS := $(addsuffix .c, $(BASE_NAME))

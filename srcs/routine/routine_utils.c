@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   refactor.c                                         :+:      :+:    :+:   */
+/*   routine_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/06 14:20:02 by marvin            #+#    #+#             */
-/*   Updated: 2026/04/06 14:20:02 by marvin           ###   ########.fr       */
+/*   Created: 2026/04/08 17:03:57 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/08 17:03:57 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <prototypes.h>
 #include <types.h>
 
-static bool	check_cooldown(t_coder *coder, t_dongle *first, t_dongle *second)
+bool	check_cooldown(t_coder *coder, t_dongle *first, t_dongle *second)
 {
 	bool	state;
 
@@ -27,22 +27,6 @@ get_curr_time_from_start() - second->release_time < \
 coder->shared->parse_result.dongle_cooldown)
 		state = false;
 	return (state);
-}
-
-bool	can_i_take(t_coder *coder, t_dongle *first, t_dongle *second)
-{
-	bool	i_can;
-
-	i_can = true;
-	pthread_mutex_lock(&first->mutex_dongle);
-	pthread_mutex_lock(&second->mutex_dongle);
-	if (coder != first->waiting_queue->coder || \
-coder != second->waiting_queue->coder || \
-!check_cooldown(coder, first, second))
-		i_can = false;
-	pthread_mutex_unlock(&first->mutex_dongle);
-	pthread_mutex_unlock(&second->mutex_dongle);
-	return (i_can);
 }
 
 void	append_both(t_coder *coder, t_dongle *first, t_dongle *second)

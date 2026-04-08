@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   coders.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 10:18:02 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/06 23:52:43 by marvin           ###   ########.fr       */
+/*   Updated: 2026/04/08 12:13:38 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_coder	*create_coders_list(t_global_data *shared)
 	{
 		coders[i].id = i + 1;
 		coders[i].shared = shared;
+		coders[i].request_date = 0;
 		coders[i].left_dongle = &shared->dongles[i];
 		coders[i].right_dongle = &shared->dongles[(i + 1) % shared->parse_result.number_of_coder];
 		i++;

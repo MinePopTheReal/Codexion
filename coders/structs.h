@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/06 22:50:49 by marvin           ###   ########.fr       */
+/*   Updated: 2026/04/08 13:52:10 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ struct	s_waiting_queue
 struct s_dongle
 {
 	int						id;
-	// bool			is_taken; // par forcement necessaire 
 	long long int			release_time;
 	struct s_waiting_queue	*waiting_queue;
 	pthread_mutex_t			mutex_dongle;
@@ -57,6 +56,7 @@ struct s_coder
 	int						id;
 	int						nb_compiles;
 	long long int			last_compile;
+	long long int			request_date;
 	struct s_dongle			*left_dongle;
 	struct s_dongle			*right_dongle;
 	struct s_global_data	*shared;
