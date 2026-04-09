@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 17:04:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/08 17:04:20 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/09 21:46:38 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,35 @@ long long int	get_curr_time_from_start(void)
 bool	print_state(int coder_id, char *state, t_coder *coder)
 {
 	long long int	time_ms;
-	bool			cpy_is_run;
 
-	cpy_is_run = get_is_run(coder);
 	time_ms = get_curr_time_from_start();
-	if (!cpy_is_run)
+	pthread_mutex_lock(&coder->shared->mutex_is_run);
+	if (!coder->shared->is_run && strcmp(state, "burned out") != 0)
+	{
+		pthread_mutex_unlock(&coder->shared->mutex_is_run);
 		return (false);
+	}
 	pthread_mutex_lock(&coder->shared->mutex_print);
 	printf("%lld %d %s\n", time_ms, coder_id, state);
 	pthread_mutex_unlock(&coder->shared->mutex_print);
+	pthread_mutex_unlock(&coder->shared->mutex_is_run);
 	return (true);
 }
 
 bool	smart_sleep(long long int time_ms, t_coder *coder)
 {
-	int				step;
-	long long int	time_count_ms;
+	long long int	time_count;
 	long long int	start;
 
-	step = 50;
-	time_count_ms = 0;
+	time_count = 0;
 	start = get_curr_time_from_start();
-	time_count_ms = get_curr_time_from_start();
-	while (start + time_ms > time_count_ms)
+	time_count = get_curr_time_from_start();
+	while (start + time_ms > time_count)
 	{
 		if (!get_is_run(coder))
 			return (false);
-		else if (time_ms - time_count_ms < step)
-			step = time_ms - time_count_ms;
-		usleep(500);
-		time_count_ms = get_curr_time_from_start();
+		usleep(50);
+		time_count = get_curr_time_from_start();
 	}
 	return (true);
 }

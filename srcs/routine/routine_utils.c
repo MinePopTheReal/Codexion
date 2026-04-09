@@ -15,18 +15,15 @@
 
 bool	check_cooldown(t_coder *coder, t_dongle *first, t_dongle *second)
 {
-	bool	state;
-
-	state = true;
 	if (!(first->release_time == -1) && \
 get_curr_time_from_start() - first->release_time < \
 coder->shared->parse_result.dongle_cooldown)
-		state = false;
+		return (false);
 	else if (!(second->release_time == -1) && \
 get_curr_time_from_start() - second->release_time < \
 coder->shared->parse_result.dongle_cooldown)
-		state = false;
-	return (state);
+		return (false);
+	return (true);
 }
 
 void	append_both(t_coder *coder, t_dongle *first, t_dongle *second)
@@ -76,13 +73,10 @@ bool 	is_done(t_coder *coder)
 
 bool	wait_dongle(t_coder *coder, t_dongle *first, t_dongle *second)
 {
-	bool	state;
-
-	state = true;
 	while (!can_i_take(coder, first, second))
 	{
 		if (!smart_sleep(1, coder))
-			state = false;
+			return (false);
 	}
-	return (state);
+	return (true);
 }

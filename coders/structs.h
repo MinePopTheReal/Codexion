@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/08 13:52:10 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/09 19:24:02 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <pthread.h>
 # include <stdbool.h> 
-# include <pthread.h> 
 # include "enum.h"
 
 struct	s_waiting_queue;
@@ -56,7 +55,6 @@ struct s_coder
 	int						id;
 	int						nb_compiles;
 	long long int			last_compile;
-	long long int			request_date;
 	struct s_dongle			*left_dongle;
 	struct s_dongle			*right_dongle;
 	struct s_global_data	*shared;

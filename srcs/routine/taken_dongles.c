@@ -13,15 +13,6 @@
 #include <prototypes.h>
 #include <types.h>
 
-
-void	rotate(t_coder *coder, t_waiting_queue **queue)
-{
-	first_pop_queue(queue);
-	if ((coder->nb_compiles < \
-coder->shared->parse_result.number_of_compiles - 1))
-		append_queue(queue, coder);
-}
-
 bool	taken_dongles(t_coder *coder, t_dongle *first, t_dongle *second)
 {
 	if (!can_i_take(coder, first, second))
@@ -39,9 +30,7 @@ bool	taken_dongles(t_coder *coder, t_dongle *first, t_dongle *second)
 		pthread_mutex_unlock(&second->mutex_dongle);
 		return (false);
 	}
-	pthread_mutex_lock(&coder->mutex_coder);
-	rotate(coder, &first->waiting_queue);
-	rotate(coder, &second->waiting_queue);
-	pthread_mutex_unlock(&coder->mutex_coder);
+	first_pop_queue(&first->waiting_queue);
+	first_pop_queue(&second->waiting_queue);
 	return (true);
 }

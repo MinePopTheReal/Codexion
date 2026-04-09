@@ -24,7 +24,6 @@ BASE_NAME := parsing \
 			new_node \
 			codexion \
 			other_utils \
-			priority \
 			can_i_take
 
 VPATH := $(SRCS_DIR):$(SRCS_DIR)/parsing:$(SRCS_DIR)/monitor:$(SRCS_DIR)/routine:$(SRCS_DIR)/queue:$(SRCS_DIR)/other:$(SRCS_DIR)/coders

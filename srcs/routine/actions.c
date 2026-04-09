@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:55 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/08 18:16:48 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/09 22:12:40 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 
 bool	actions(t_coder *coder, t_dongle *first, t_dongle *second)
 {
-	bool	state;
-
-	state = true;
 	if (taken_dongles(coder, first, second))
 	{
 		if (!compile(coder))
-			state = false;
+		{
+			release_dongles(first, second);
+			return (false);
+		}
 		release_dongles(first, second);
 	}
 	else
-		state = false;
+		return (false);
 	if (!debug(coder))
-		state = false;
+		return (false);
 	if (!refactor(coder))
-		state = false;
-	return (state);
+		return (false);
+	return (true);
 }

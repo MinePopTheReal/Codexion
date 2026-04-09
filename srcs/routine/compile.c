@@ -16,17 +16,20 @@
 bool	compile(t_coder *coder)
 {
 	long long int	compile_time;
-	bool			state;
 
-	state = true;
+
 	pthread_mutex_lock(&coder->mutex_coder);
 	if (!print_state(coder->id, "is compiling", coder))
+	{
+		compile_time = coder->shared->parse_result.time_to_compile;
+		pthread_mutex_unlock(&coder->mutex_coder);
 		return (false);
+	}
 	coder->last_compile = get_curr_time_from_start();
 	coder->nb_compiles += 1;
 	compile_time = coder->shared->parse_result.time_to_compile;
-	if (!smart_sleep(compile_time, coder))
-		state = false;
 	pthread_mutex_unlock(&coder->mutex_coder);
-	return (state);
+	if (!smart_sleep(compile_time, coder))
+		return (false);
+	return (true);
 }

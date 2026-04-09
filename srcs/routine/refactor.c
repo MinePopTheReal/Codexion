@@ -16,13 +16,11 @@
 bool	refactor(t_coder *coder)
 {
 	long long int	refactor_time;
-	bool			state;
 
-	state = true;
 	if (!print_state(coder->id, "is refactoring", coder))
-		state = false;
+		return (false);
 	refactor_time = coder->shared->parse_result.time_to_refactor;
 	if (!smart_sleep(refactor_time, coder))
-		state = false;
-	return (state);
+		return (false);
+	return (true);
 }

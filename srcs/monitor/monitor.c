@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:41 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/07 19:51:47 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/09 22:48:04 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,16 @@ bool	is_finish(t_coder	*coder)
 
 bool	is_burnout(t_coder *coder)
 {
-	bool	state;
-
-	state = true;
 	if (get_curr_time_from_start() - coder->last_compile >= \
 coder->shared->parse_result.time_to_burnout)
 	{
-		print_state(coder->id, "burned out", coder);
 		pthread_mutex_lock(&coder->shared->mutex_is_run);
 		coder->shared->is_run = false;
 		pthread_mutex_unlock(&coder->shared->mutex_is_run);
-		state = false;
+		print_state(coder->id, "burned out", coder);
+		return (false);
 	}
-	return (state);
+	return (true);
 }
 
 void	*test_monitor(void *ptr)
@@ -72,6 +69,7 @@ void	*test_monitor(void *ptr)
 			}
 			pthread_mutex_unlock(&shared->coders[i].mutex_coder);
 			i++;
+			// usleep(5);
 		}
 	}
 	return (NULL);
