@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   codexion.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 19:51:55 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:35:40 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/10 16:32:31 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "types.h"
 #include "prototypes.h"
 
-bool	actions(t_coder *coder, t_dongle_order *dongle_order)
+int	main(int argc, char **argv)
 {
-	if (take_dongles(coder, dongle_order))
-	{
-		if (!compile(coder))
-		{
-			release_dongles(dongle_order);
-			return (false);
-		}
-		release_dongles(dongle_order);
-	}
-	else
-		return (false);
-	if (!debug(coder))
-		return (false);
-	if (!refactor(coder))
-		return (false);
-	return (true);
+	t_global_data	shared;
+	t_monitor		monitor_data;
+
+	memset(&shared.parse_result, 0, sizeof(t_parsing));
+	if (!parsing(argc, argv, &shared.parse_result))
+		return (-1);
+	if (!init(&shared))
+		return (-1);
+	if (!start_thread(&shared, &monitor_data))
+		return (-1);
+	if (!join_thread(&shared, &monitor_data))
+		return (-1);
+	free_entities(&shared);
+	free_queues(&shared);
+	return (0);
 }

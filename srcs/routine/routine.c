@@ -14,61 +14,30 @@
 
 #include <types.h>
 
-// bool	has_priority(t_waiting_queue **queue, t_parsing	*parsing)
-// {
-// 	long long int	first_deadline;
-// 	long long int	second_deadline;
-
-// 	first_deadline = parsing->time_to_burnout + (*queue)->coder->last_compile - get_curr_time_from_start();
-// 	second_deadline = parsing->time_to_burnout + (*queue)->next->coder->last_compile - get_curr_time_from_start(); 
-// 	if (first_deadline < second_deadline)
-// 		return (true);
-// 	return (false);
-// }
-
-// void	add_queue(t_waiting_queue **queue, t_parsing *parsing)
-// {
-// 	// edf
-// 	if (parsing->scheduler)
-// 	{
-// 		if (has_priority(queue, parsing))
-// 		{
-// 			append_queue(queue, (*queue)->coder);
-// 			rotate((*queue)->coder, queue);
-// 		}
-// 	}
-// 	// fifo
-// 	else
-// 		append_queue(queue, (*queue)->coder);
-// }
-
 void	*routine(void *ptr)
 {
-	t_coder		*coder;
-	t_dongle	*first;
-	t_dongle	*second;
+	t_coder			*coder;
+	t_dongle_order	dongle_order;
 
-	first = NULL;
-	second = NULL;
 	coder = (t_coder *) ptr;
 	pthread_mutex_lock(&coder->mutex_coder);
 	coder->last_compile = get_curr_time_from_start();
 	pthread_mutex_unlock(&coder->mutex_coder);
-	get_first_second(coder, &first, &second);
+	get_first_second(coder, &dongle_order);
 	if (coder->id % 2 == 0)
 		usleep(500);
-	if (second == first)
+	if (dongle_order.second == dongle_order.first)
 		return (NULL);
 	while (get_is_run(coder))
 	{
 		if ((coder->nb_compiles < \
 coder->shared->parse_result.number_of_compiles))
-			append_both(coder, first, second);
+			append_both(coder, &dongle_order);
 		if (!is_done(coder))
 			break ;
-		if (!wait_dongle(coder, first, second))
+		if (!wait_dongle(coder, &dongle_order))
 			break ;
-		if (!actions(coder, first, second))
+		if (!actions(coder, &dongle_order))
 			break ;
 	}
 	return (NULL);

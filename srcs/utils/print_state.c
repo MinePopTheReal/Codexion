@@ -1,40 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   other_utils.c                                      :+:      :+:    :+:   */
+/*   print_state.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/08 17:04:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/09 21:46:38 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/09 23:37:42 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/09 23:37:49 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 #include "structs.h"
-
-bool	get_is_run(t_coder *coder)
-{
-	bool	is_run;
-
-	pthread_mutex_lock(&coder->shared->mutex_is_run);
-	is_run = coder->shared->is_run;
-	pthread_mutex_unlock(&coder->shared->mutex_is_run);
-	return (is_run);
-}
-
-long long int	get_curr_time_from_start(void)
-{
-	struct timeval			s_time;
-	long long int			curr_time_ms;
-	static long long int	start_time_ms = -1;
-
-	gettimeofday(&s_time, NULL);
-	curr_time_ms = s_time.tv_sec * 1000 + s_time.tv_usec / 1000;
-	if (start_time_ms == -1)
-		start_time_ms = curr_time_ms;
-	return (curr_time_ms - start_time_ms);
-}
 
 bool	print_state(int coder_id, char *state, t_coder *coder)
 {
@@ -51,23 +28,5 @@ bool	print_state(int coder_id, char *state, t_coder *coder)
 	printf("%lld %d %s\n", time_ms, coder_id, state);
 	pthread_mutex_unlock(&coder->shared->mutex_print);
 	pthread_mutex_unlock(&coder->shared->mutex_is_run);
-	return (true);
-}
-
-bool	smart_sleep(long long int time_ms, t_coder *coder)
-{
-	long long int	time_count;
-	long long int	start;
-
-	time_count = 0;
-	start = get_curr_time_from_start();
-	time_count = get_curr_time_from_start();
-	while (start + time_ms > time_count)
-	{
-		if (!get_is_run(coder))
-			return (false);
-		usleep(50);
-		time_count = get_curr_time_from_start();
-	}
 	return (true);
 }

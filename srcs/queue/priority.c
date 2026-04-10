@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   priority.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 19:51:55 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:35:40 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/09 23:34:25 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/09 23:34:47 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
 #include "prototypes.h"
+#include "types.h"
 
-bool	actions(t_coder *coder, t_dongle_order *dongle_order)
+bool	priority(t_coder *first, t_coder *second, t_parsing	*parsing)
 {
-	if (take_dongles(coder, dongle_order))
+	long long int	first_deadline;
+	long long int	second_deadline;
+	bool			state;
+
+	state = true;
+	if (parsing->scheduler)
 	{
-		if (!compile(coder))
-		{
-			release_dongles(dongle_order);
-			return (false);
-		}
-		release_dongles(dongle_order);
+		first_deadline = parsing->time_to_burnout + first->last_compile;
+		second_deadline = parsing->time_to_burnout + second->last_compile;
+		if (first_deadline < second_deadline)
+			state = false;
 	}
-	else
-		return (false);
-	if (!debug(coder))
-		return (false);
-	if (!refactor(coder))
-		return (false);
-	return (true);
+	return (state);
 }

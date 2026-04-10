@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   smart_sleep.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 19:51:55 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:35:40 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/09 23:36:07 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/09 23:36:32 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
 #include "prototypes.h"
+#include "structs.h"
 
-bool	actions(t_coder *coder, t_dongle_order *dongle_order)
+bool	smart_sleep(long long int time_ms, t_coder *coder)
 {
-	if (take_dongles(coder, dongle_order))
+	long long int	time_count;
+	long long int	start;
+
+	time_count = 0;
+	start = get_curr_time_from_start();
+	time_count = get_curr_time_from_start();
+	while (start + time_ms > time_count)
 	{
-		if (!compile(coder))
-		{
-			release_dongles(dongle_order);
+		if (!get_is_run(coder))
 			return (false);
-		}
-		release_dongles(dongle_order);
+		usleep(50);
+		time_count = get_curr_time_from_start();
 	}
-	else
-		return (false);
-	if (!debug(coder))
-		return (false);
-	if (!refactor(coder))
-		return (false);
 	return (true);
 }

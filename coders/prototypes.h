@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:26 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/09 18:13:22 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/10 16:46:14 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,52 +18,61 @@
 # include <string.h>
 # include <unistd.h>
 # include <sys/time.h>
-
 # include "types.h"
 
-// init
+// entities
 t_dongle		*create_dongle_list(int nb_coder);
 t_coder			*create_coders_list(t_global_data *shared);
+void			free_entities(t_global_data *global_data);
+
+// monitor
+void			*monitor(void *ptr);
+bool			is_burnout(t_coder *coder);
+bool			is_finish(t_coder *coder);
 
 // parsing
-int				parsing(int argc, char **argv, t_parsing *parse_value);
 void			print_error(char *message);
+bool			is_valid_number(char *parse_value);
+void			set_value(char **argv, t_parsing *parse_value);
+bool			parsing(int argc, char **argv, t_parsing *parse_value);
 
-//actions
-bool	        check_cooldown(t_coder *coder, t_dongle *first, t_dongle *second);
-void			*routine(void *ptr);
-bool	        debug(t_coder *coder);
-bool	        refactor(t_coder *coder);
-bool			compile(t_coder *coder);
-bool	        actions(t_coder *coder, t_dongle *first, t_dongle *second);
-bool            taken_dongles(t_coder *coder, t_dongle *first, t_dongle *second);
-void            release_dongles(t_dongle *first, t_dongle *second);
-void            get_first_second(t_coder *coder, t_dongle **first, t_dongle **second);
-void	        append_both(t_coder *coder, t_dongle *first, t_dongle *second);
-bool 	        is_done(t_coder *coder);
-bool	        wait_dongle(t_coder *coder, t_dongle *first, t_dongle *second);
-bool	        can_i_take(t_coder *coder, t_dongle *first, t_dongle *second);
-void	        rotate(t_coder *coder, t_waiting_queue **queue);
+//init
+bool			init(t_global_data *shared);
+bool			shared_init(t_global_data *shared);
+bool			mutex_init(pthread_mutex_t	*mutex);
+bool			join_thread(t_global_data *shared, t_monitor *monitor_data);
+bool			start_thread(t_global_data *shared, t_monitor *monitor_data);
 
-//free
-void			free_coders(t_global_data *global_data);
-
-//monitor
-void			*test_monitor(void *ptr);
-bool	        sim_is_finish(t_global_data *shared);
-
-//utils
-long long int	get_curr_time_from_start(void);
-bool			print_state(int coder_id, char *state, t_coder *coder);
-bool			smart_sleep(long long int time_ms, t_coder *coder);
-bool	        get_is_run(t_coder *coder);
-
-// waiting_queue
-bool            priority(t_coder *first, t_coder *second, t_parsing	*parsing);
-void			append_queue(t_waiting_queue **queue, t_coder *coder);
-t_coder			*first_pop_queue(t_waiting_queue **queue);
-void			free_queues(t_global_data *shared);
-t_waiting_queue	*last_coder(t_waiting_queue *queue);
+// queue
 t_waiting_queue	*new_node(void);
+void			free_queues(t_global_data *shared);
+void			swap_coder(t_waiting_queue **queue);
+t_waiting_queue	*last_coder(t_waiting_queue *queue);
+t_coder			*first_pop_queue(t_waiting_queue **queue);
+void			append_queue(t_waiting_queue **queue, t_coder *coder);
+void			append_both(t_coder *coder, t_dongle_order *dongle_order);
+bool			priority(t_coder *first, t_coder *second, t_parsing *parsing);
+
+// routine
+void			*routine(void *ptr);
+bool			debug(t_coder *coder);
+bool			is_done(t_coder *coder);
+bool			compile(t_coder *coder);
+bool			refactor(t_coder *coder);
+void			release_dongles(t_dongle_order *dongle_order);
+bool			actions(t_coder *coder, t_dongle_order *dongle_order);
+bool			can_i_take(t_coder *coder, t_dongle_order *dongle_order);
+bool			wait_dongle(t_coder *coder, t_dongle_order *dongle_order);
+bool			take_dongles(t_coder *coder, t_dongle_order *dongle_order);
+bool			check_cooldown(t_coder *coder, t_dongle_order *dongle_order);
+void			get_first_second(t_coder *coder, t_dongle_order	*dongle_order);
+
+// time
+long long int	get_curr_time_from_start(void);
+bool			smart_sleep(long long int time_ms, t_coder *coder);
+
+// utils
+bool			get_is_run(t_coder *coder);
+bool			print_state(int coder_id, char *state, t_coder *coder);
 
 #endif

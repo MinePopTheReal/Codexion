@@ -1,34 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 19:51:55 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:35:40 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/03/17 11:26:59 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/10 16:27:33 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
-#include "prototypes.h"
+#include "colors.h"
+#include <stdio.h>
 
-bool	actions(t_coder *coder, t_dongle_order *dongle_order)
+void	print_error(char *message)
 {
-	if (take_dongles(coder, dongle_order))
-	{
-		if (!compile(coder))
-		{
-			release_dongles(dongle_order);
-			return (false);
-		}
-		release_dongles(dongle_order);
-	}
-	else
-		return (false);
-	if (!debug(coder))
-		return (false);
-	if (!refactor(coder))
-		return (false);
-	return (true);
+	fprintf(stderr, "[" BOLD RED "ERROR" RESET "]: %s", message);
 }

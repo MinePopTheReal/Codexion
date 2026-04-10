@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   can_i_take.c                                       :+:      :+:    :+:   */
+/*   append_both.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/08 17:03:37 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:26:35 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/09 23:30:57 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/10 16:36:40 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <prototypes.h>
 #include <types.h>
 
-bool	can_i_take(t_coder *coder, t_dongle_order *dongle_order)
+void	append_both(t_coder *coder, t_dongle_order *dongle_order)
 {
-	bool	i_can;
-
-	i_can = true;
 	pthread_mutex_lock(&dongle_order->first->mutex_dongle);
 	pthread_mutex_lock(&dongle_order->second->mutex_dongle);
-	if (coder != dongle_order->first->waiting_queue->coder || \
-coder != dongle_order->second->waiting_queue->coder || \
-!check_cooldown(coder, dongle_order))
-		i_can = false;
+	append_queue(&dongle_order->first->waiting_queue, coder);
+	append_queue(&dongle_order->second->waiting_queue, coder);
 	pthread_mutex_unlock(&dongle_order->first->mutex_dongle);
 	pthread_mutex_unlock(&dongle_order->second->mutex_dongle);
-	return (i_can);
 }

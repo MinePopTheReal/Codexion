@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   monitor_utils.c                                    :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 14:54:43 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/07 21:12:08 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/10 16:23:29 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/10 16:26:24 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <prototypes.h>
-#include <types.h>
+#include "types.h"
+#include "prototypes.h"
 
-bool	sim_is_finish(t_global_data *shared)
+bool	init(t_global_data *shared)
 {
-	bool	state;
-	int		i;
+	int	i;
 
 	i = 0;
-	state = true;
+	if (!shared_init(shared))
+		return (false);
 	while (i < shared->parse_result.number_of_coder)
 	{
-		if (shared->coders[i].nb_compiles < \
-shared->parse_result.number_of_compiles)
-			state = false;
+		if (!mutex_init(&shared->dongles[i].mutex_dongle))
+			return (false);
+		if (!mutex_init(&shared->coders[i].mutex_coder))
+			return (false);
 		i++;
 	}
-	return (state);
+	if (!mutex_init(&shared->mutex_print))
+		return (false);
+	if (!mutex_init(&shared->mutex_is_run))
+		return (false);
+	return (true);
 }

@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   refactor.c                                         :+:      :+:    :+:   */
+/*   wait_dongle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/06 14:20:02 by marvin            #+#    #+#             */
-/*   Updated: 2026/04/06 14:20:02 by marvin           ###   ########.fr       */
+/*   Created: 2026/04/09 23:33:00 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/09 23:33:00 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <prototypes.h>
 #include <types.h>
 
-bool	refactor(t_coder *coder)
+bool	wait_dongle(t_coder *coder, t_dongle_order *dongle_order)
 {
-	long long int	refactor_time;
-
-	if (!print_state(coder->id, "is refactoring", coder))
-		return (false);
-	refactor_time = coder->shared->parse_result.time_to_refactor;
-	if (!smart_sleep(refactor_time, coder))
-		return (false);
+	while (!can_i_take(coder, dongle_order))
+	{
+		if (!smart_sleep(1, coder))
+			return (false);
+	}
 	return (true);
 }

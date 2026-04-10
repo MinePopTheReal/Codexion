@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   is_done.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 19:51:55 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:35:40 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/09 23:33:22 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/10 16:36:28 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
-#include "prototypes.h"
+#include <prototypes.h>
+#include <types.h>
 
-bool	actions(t_coder *coder, t_dongle_order *dongle_order)
+bool	is_done(t_coder *coder)
 {
-	if (take_dongles(coder, dongle_order))
-	{
-		if (!compile(coder))
-		{
-			release_dongles(dongle_order);
-			return (false);
-		}
-		release_dongles(dongle_order);
-	}
-	else
-		return (false);
-	if (!debug(coder))
-		return (false);
-	if (!refactor(coder))
-		return (false);
-	return (true);
+	bool	state;
+
+	state = true;
+	pthread_mutex_lock(&coder->mutex_coder);
+	if (coder->nb_compiles >= coder->shared->parse_result.number_of_compiles)
+		state = false;
+	pthread_mutex_unlock(&coder->mutex_coder);
+	return (state);
 }

@@ -13,24 +13,24 @@
 #include <prototypes.h>
 #include <types.h>
 
-bool	taken_dongles(t_coder *coder, t_dongle *first, t_dongle *second)
+bool	take_dongles(t_coder *coder, t_dongle_order *dongle_order)
 {
-	if (!can_i_take(coder, first, second))
+	if (!can_i_take(coder, dongle_order))
 		return (false);
-	pthread_mutex_lock(&first->mutex_dongle);
+	pthread_mutex_lock(&dongle_order->first->mutex_dongle);
 	if (!print_state(coder->id, "has taken a dongle", coder))
 	{
-		pthread_mutex_unlock(&first->mutex_dongle);
+		pthread_mutex_unlock(&dongle_order->first->mutex_dongle);
 		return (false);
 	}
-	pthread_mutex_lock(&second->mutex_dongle);
+	pthread_mutex_lock(&dongle_order->second->mutex_dongle);
 	if (!print_state(coder->id, "has taken a dongle", coder))
 	{
-		pthread_mutex_unlock(&first->mutex_dongle);
-		pthread_mutex_unlock(&second->mutex_dongle);
+		pthread_mutex_unlock(&dongle_order->first->mutex_dongle);
+		pthread_mutex_unlock(&dongle_order->second->mutex_dongle);
 		return (false);
 	}
-	first_pop_queue(&first->waiting_queue);
-	first_pop_queue(&second->waiting_queue);
+	first_pop_queue(&dongle_order->first->waiting_queue);
+	first_pop_queue(&dongle_order->second->waiting_queue);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/09 19:24:02 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/10 11:29:37 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,18 @@
 
 struct	s_waiting_queue;
 struct	s_global_data;
-struct	s_parsing;
-struct	s_dongle;
 struct	s_coder;
 
 struct s_parsing
 {
-	int		number_of_coder;
-	int		time_to_burnout;
-	int		time_to_compile;
-	int		time_to_debug;
-	int		time_to_refactor;
-	int		number_of_compiles;
-	int		dongle_cooldown;
-	t_algo	scheduler;
-};
-
-struct	s_waiting_queue
-{
-	struct s_coder			*coder;
-	struct s_waiting_queue	*next;
-	struct s_waiting_queue	*prev;
+	int						number_of_coder;
+	int						time_to_burnout;
+	int						time_to_compile;
+	int						time_to_debug;
+	int						time_to_refactor;
+	int						number_of_compiles;
+	int						dongle_cooldown;
+	t_algo					scheduler;
 };
 
 struct s_dongle
@@ -48,6 +39,13 @@ struct s_dongle
 	long long int			release_time;
 	struct s_waiting_queue	*waiting_queue;
 	pthread_mutex_t			mutex_dongle;
+};
+
+struct	s_waiting_queue
+{
+	struct s_coder			*coder;
+	struct s_waiting_queue	*next;
+	struct s_waiting_queue	*prev;
 };
 
 struct s_coder
@@ -75,7 +73,13 @@ struct s_global_data
 
 struct s_monitor
 {
-	pthread_t	thread_monitor;
+	pthread_t				thread_monitor;
+};
+
+struct s_dongle_order
+{
+	struct s_dongle			*first;
+	struct s_dongle			*second;
 };
 
 #endif

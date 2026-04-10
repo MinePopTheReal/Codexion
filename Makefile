@@ -5,39 +5,68 @@ SRCS_DIR := srcs
 OBJS_DIR := $(BUILDDIR)/objs
 DEPS_DIR := $(BUILDDIR)/deps
 
-BASE_NAME := parsing \
-			print_error \
-			coders \
+BASE_NAME := create_coders_list \
+			create_dongles_list \
+			free_entities \
+			init \
+			join_thread \
+			mutex_init \
+			shared_init \
+			start_thread \
+			codexion \
+			is_burnout \
+			is_finish \
 			monitor \
-			monitor_utils \
-			actions \
-			compile \
-			debug \
-			refactor \
-			routine \
-			taken_dongles \
-			routine_utils \
-			append \
-			first_pop \
+			parsing \
+			print_error \
+			is_valid_number \
+			set_value \
+			append_both \
+			append_queue \
+			first_pop_queue \
 			free_queue \
 			last_coder \
 			new_node \
-			codexion \
-			other_utils \
-			can_i_take
+			priority \
+			swap_coder \
+			actions \
+			can_i_take \
+			check_couldown \
+			compile \
+			debug \
+			get_first_second \
+			is_done \
+			refactor \
+			release_dongle \
+			routine \
+			take_dongles \
+			wait_dongle \
+			get_curr_time_from_start \
+			smart_sleep \
+			get_is_run \
+			print_state \
 
-VPATH := $(SRCS_DIR):$(SRCS_DIR)/parsing:$(SRCS_DIR)/monitor:$(SRCS_DIR)/routine:$(SRCS_DIR)/queue:$(SRCS_DIR)/other:$(SRCS_DIR)/coders
+VPATH := $(SRCS_DIR): \
+		$(SRCS_DIR)/entities: \
+		$(SRCS_DIR)/init \
+		$(SRCS_DIR)/main: \
+		$(SRCS_DIR)/monitor: \
+		$(SRCS_DIR)/parsing: \
+		$(SRCS_DIR)/queue: \
+		$(SRCS_DIR)/routine: \
+		$(SRCS_DIR)/time: \
+		$(SRCS_DIR)/utils
 SRCS := $(addsuffix .c, $(BASE_NAME))
 OBJS := $(addprefix $(OBJS_DIR)/, $(addsuffix .o, $(BASE_NAME)))
 DEPS := $(addprefix $(DEPS_DIR)/, $(addsuffix .d, $(BASE_NAME)))
 
 DEPS_FLAGS := -MD -MF
-CFLAGS := -Wall -Wextra -Werror -pthread -Icoders -g3 # remove -g3
+CFLAGS := -Wall -Wextra -Werror -pthread -Icoders
 
 all: $(NAME)
 
 $(NAME): $(OBJS) 
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -fsanitize=thread
 
 $(OBJS_DIR) $(DEPS_DIR):
 	mkdir -p $@

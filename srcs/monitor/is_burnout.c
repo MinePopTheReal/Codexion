@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   is_burnout.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 19:51:55 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:35:40 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/09 23:40:23 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/09 23:40:30 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
 #include "prototypes.h"
+#include "structs.h"
 
-bool	actions(t_coder *coder, t_dongle_order *dongle_order)
+bool	is_burnout(t_coder *coder)
 {
-	if (take_dongles(coder, dongle_order))
+	if (get_curr_time_from_start() - coder->last_compile >= \
+coder->shared->parse_result.time_to_burnout)
 	{
-		if (!compile(coder))
-		{
-			release_dongles(dongle_order);
-			return (false);
-		}
-		release_dongles(dongle_order);
+		pthread_mutex_lock(&coder->shared->mutex_is_run);
+		coder->shared->is_run = false;
+		pthread_mutex_unlock(&coder->shared->mutex_is_run);
+		print_state(coder->id, "burned out", coder);
+		return (false);
 	}
-	else
-		return (false);
-	if (!debug(coder))
-		return (false);
-	if (!refactor(coder))
-		return (false);
 	return (true);
 }

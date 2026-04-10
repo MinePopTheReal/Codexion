@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   get_first_second.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 19:51:55 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:35:40 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/09 23:32:24 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/10 12:58:38 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
-#include "prototypes.h"
+#include <prototypes.h>
+#include <types.h>
 
-bool	actions(t_coder *coder, t_dongle_order *dongle_order)
+void	get_first_second(t_coder *coder, t_dongle_order	*dongle_order)
 {
-	if (take_dongles(coder, dongle_order))
+	if (coder->left_dongle < coder->right_dongle)
 	{
-		if (!compile(coder))
-		{
-			release_dongles(dongle_order);
-			return (false);
-		}
-		release_dongles(dongle_order);
+		dongle_order->first = coder->left_dongle;
+		dongle_order->second = coder->right_dongle;
 	}
 	else
-		return (false);
-	if (!debug(coder))
-		return (false);
-	if (!refactor(coder))
-		return (false);
-	return (true);
+	{
+		dongle_order->first = coder->right_dongle;
+		dongle_order->second = coder->left_dongle;
+	}
 }

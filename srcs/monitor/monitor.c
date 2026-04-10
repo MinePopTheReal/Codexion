@@ -6,46 +6,14 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:41 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/09 22:48:04 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/10 15:25:23 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 #include "structs.h"
 
-bool	is_finish(t_coder	*coder)
-{
-	bool	state;
-
-	state = true;
-	if (coder->nb_compiles >= coder->shared->parse_result.number_of_compiles)
-	{
-		if (sim_is_finish(coder->shared))
-		{
-			pthread_mutex_lock(&coder->shared->mutex_is_run);
-			coder->shared->is_run = false;
-			pthread_mutex_unlock(&coder->shared->mutex_is_run);
-			state = false;
-		}
-	}
-	return (state);
-}
-
-bool	is_burnout(t_coder *coder)
-{
-	if (get_curr_time_from_start() - coder->last_compile >= \
-coder->shared->parse_result.time_to_burnout)
-	{
-		pthread_mutex_lock(&coder->shared->mutex_is_run);
-		coder->shared->is_run = false;
-		pthread_mutex_unlock(&coder->shared->mutex_is_run);
-		print_state(coder->id, "burned out", coder);
-		return (false);
-	}
-	return (true);
-}
-
-void	*test_monitor(void *ptr)
+void	*monitor(void *ptr)
 {
 	t_global_data	*shared;
 	int				i;
@@ -69,7 +37,6 @@ void	*test_monitor(void *ptr)
 			}
 			pthread_mutex_unlock(&shared->coders[i].mutex_coder);
 			i++;
-			// usleep(5);
 		}
 	}
 	return (NULL);

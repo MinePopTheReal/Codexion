@@ -17,7 +17,6 @@ bool	compile(t_coder *coder)
 {
 	long long int	compile_time;
 
-
 	pthread_mutex_lock(&coder->mutex_coder);
 	if (!print_state(coder->id, "is compiling", coder))
 	{

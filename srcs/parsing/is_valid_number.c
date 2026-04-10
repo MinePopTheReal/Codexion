@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   is_valid_number.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/07 19:51:55 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:35:40 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/10 13:00:59 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/10 13:01:57 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
-#include "prototypes.h"
+#include "../coders/types.h"
+#include "../coders/prototypes.h"
 
-bool	actions(t_coder *coder, t_dongle_order *dongle_order)
+bool	is_valid_number(char *parse_value)
 {
-	if (take_dongles(coder, dongle_order))
+	if (!parse_value)
 	{
-		if (!compile(coder))
-		{
-			release_dongles(dongle_order);
-			return (false);
-		}
-		release_dongles(dongle_order);
+		print_error("only positive integers are allowed");
+		return (false);
 	}
-	else
+	if (parse_value[0] == '-')
+	{
+		print_error("only positive integers are allowed");
 		return (false);
-	if (!debug(coder))
-		return (false);
-	if (!refactor(coder))
-		return (false);
+	}
 	return (true);
 }
