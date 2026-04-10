@@ -5,12 +5,9 @@ of the 42 curriculum by tmalpert*
 ## Description
 ### Project Overview
 
-Codexion is a **multithreading** project whose goal is to simulate the simultaneous execution of multiple “coders” working on different tasks (compiling, debugging, refactoring).
-
-To compile, each coder must acquire two dongles and hold them for the entire compilation phase. These dongles are shared between coders in such a way that each coder shares their two dongles with their immediate neighbors.
-
-Each coder is represented by a **thread**, allowing us to reproduce a concurrent environment where multiple actions occur in parallel.
-
+Codexion is a **multithreading** project whose goal is to simulate the simultaneous execution of multiple “coders” working on different tasks (compiling, debugging, refactoring).<br>
+To compile, each coder must acquire two dongles and hold them for the entire compilation phase. These dongles are shared between coders in such a way that each coder shares their two dongles with their immediate neighbors.<br>
+Each coder is represented by a **thread**, allowing us to reproduce a concurrent environment where multiple actions occur in parallel.<br>
 This project demonstrates fundamental concepts of **concurrent programming** in C, using the ```pthread``` library.
 
 ### What is Multithreading?
@@ -56,39 +53,39 @@ Below is a simplified diagram of the program execution:
 
 ```mermaid
 flowchart TD
-A[MAIN] --> B[Parsing → structure]
-B --> C[Init mutex]
-C --> D[Lancer threads]
+A[MAIN] --> B[parsing]
+B --> C[init mutex]
+C --> D[start threads]
 
 D --> E[CODEURS]
 D --> F[MONITOR]
 
 %% CODEUR
-E --> G[File d'attente dongles]
-G --> H{Simulation finie ?}
+E --> G[put coder into queue]
+G --> H{simulation is finish ?}
 
-H -->|Oui| Z[Stop] 
-H -->|Non| I{Compilations finies ?}
+H -->|yes| Z[Stop] 
+H -->|no| I{has the compilation the programmer needsbeen completed?}
 
-I -->|Oui| Z 
-I -->|Non| J[Attendre dongles] 
+I -->|yes| Z 
+I -->|no| J[wait dongles] 
 
-J --> K{Disponibles ?} 
-K -->|Non| J 
-K -->|Oui| L[Prendre dongles] 
+J --> K{available ?} 
+K -->|no| J 
+K -->|yes| L[take dongles] 
 
-L --> M[Compiler] 
-M --> N[Relâcher dongles] 
-N --> O[Debug] 
-O --> P[Refactor]
+L --> M[compile] 
+M --> N[release dongles] 
+N --> O[debug] 
+O --> P[refactor]
 
-P --> H
+P --> E
 
 %% MONITOR
 F --> Q[Loop]
-Q --> R{Burnout ou fini ?}
-R -->|Oui| S[Fin simulation]
-R -->|Non| Q
+Q --> R{is burnout or is finish ?}
+R -->|yes| S[simulation is finish]
+R -->|no| Q
 
 %% FIN
 S --> T[Join threads]
@@ -98,12 +95,12 @@ T --> U[Cleanup]
 classDef main fill:#1e1e2f,color:#fff,stroke:#ffffff
 classDef process fill:#3b82f6,color:#fff,stroke:#1e3a8a
 classDef decision fill:#f59e0b,color:#fff,stroke:#92400e
-classDef endnode fill:#10b981,color:#fff,stroke:#065f46
+classDef end_node fill:#10b981,color:#fff,stroke:#065f46
 classDef alert fill:#ef4444,color:#fff,stroke:#7f1d1d
 class A main
 class B,C,D,E,F,G,J,L,M,N,O,P,Q,T process
 class H,I,K,R decision
-class S,U endnode
+class S,U end_node
 class Z alert
 ```
 ## Instructions
