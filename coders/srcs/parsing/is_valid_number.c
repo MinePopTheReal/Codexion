@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 13:00:59 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/13 14:46:51 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/13 17:23:42 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ bool	is_valid_number(char *parse_value)
 {
 	if (!parse_value)
 	{
-		print_error("only positive integers are allowed");
+		print_error("There can't be any null arguments");
 		return (false);
 	}
 	if (parse_value[0] == '-')
 	{
-		print_error("only positive integers are allowed");
+		print_error("Only positive integers are allowed");
 		return (false);
 	}
 	return (true);

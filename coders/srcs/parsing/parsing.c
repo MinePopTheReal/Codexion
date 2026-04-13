@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:44:59 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/13 14:46:38 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/13 17:50:24 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	parsing(int argc, char **argv, t_parsing *parse_value)
 	i = 0;
 	if (argc != 9)
 	{
-		print_error("some arguments are missing");
+		print_error("Argument are not valid (too many or not enough)");
 		return (false);
 	}
 	while (i < 8)
@@ -36,7 +36,7 @@ bool	parsing(int argc, char **argv, t_parsing *parse_value)
 		parse_value->scheduler = ALGO_EDF;
 	else
 	{
-		print_error("you can only choose between 'edf' and 'fifo'");
+		print_error("You can only choose between 'edf' and 'fifo'");
 		return (false);
 	}
 	set_value(argv, parse_value);
