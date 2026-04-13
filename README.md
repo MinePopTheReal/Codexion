@@ -85,9 +85,9 @@ X --> Y[clean simulation]
 D --> E[CODEURS]
 D --> F[MONITOR]
 
-%% CODEUR
-E --> G[put coder into queue]
-G --> H{simulation is finish ?}
+%% CODE
+
+	H{simulation is finish ?}
 
 H -->|yes| Z[Stop] 
 H -->|no| I{has the compilation the programmer needsbeen completed?}
@@ -104,7 +104,8 @@ M --> N[release dongles]
 N --> O[debug] 
 O --> P[refactor]
 
-P --> E
+P
+E
 
 %% MONITOR
 F --> Q[Loop]
@@ -127,6 +128,15 @@ class B,C,D,E,F,G,J,L,M,N,O,P,Q,T,X,Y process
 class H,I,K,R decision
 class S,U end_node
 class Z alert
+	P
+	P
+	P
+	J
+	H
+	M --- H
+	O --- H
+	P --- H
+	E --- I
 ```
 ## Instructions
 
