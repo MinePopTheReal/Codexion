@@ -60,11 +60,11 @@ Common Multithreading Issues
 <br>
 
 If not handled properly, multithreading can lead to:
-- Race Conditions: <br>
+- **Race Conditions**: <br>
 A race condition occurs when multiple threads access and modify the same data simultaneously without proper synchronization.
 Result: unpredictable behavior and hard-to-reproduce bugs.
 
-- Deadlocks: <br>
+- **Deadlocks**: <br>
 A deadlock occurs when two (or more) threads are waiting for resources held by each other.
 Result: the program becomes completely stuck.
 
@@ -87,15 +87,15 @@ D --> F[MONITOR]
 
 %% CODE
 
-	H{simulation is finish ?}
+	H{simulation is finished?}
 
 H -->|yes| Z[Stop] 
-H -->|no| I{has the compilation the programmer needsbeen completed?}
+H -->|no| I{Has the coder completed required compilations?}
 
 I -->|yes| Z 
 I -->|no| J[wait dongles] 
 
-J --> K{available ?} 
+J --> K{available?} 
 K -->|no| J 
 K -->|yes| L[take dongles] 
 
@@ -109,7 +109,7 @@ E
 
 %% MONITOR
 F --> Q[Loop]
-Q --> R{is burnout or is finish ?}
+Q --> R{is burnout or is finish?}
 R -->|yes| S[simulation is finish]
 R -->|no| Q
 
