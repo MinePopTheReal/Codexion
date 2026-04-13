@@ -77,22 +77,22 @@ Below is a simplified diagram of the program execution:
 ```mermaid
 flowchart TD
 subgraph MAIN
-B[parsing]
-B --> C[init simulation]
-C --> D[start threads]
-D --> X[join threads]
-X --> Y[clean simulation]
+B[Parsing]
+B --> C[Init simulation]
+C --> D[Start threads]
+D --> X[Join threads]
+X --> Y[Clean simulation]
 end
 
-%% CODE
+%% CODERS
 subgraph CODERS
-H1{simulation is finished?}
-H2{simulation is finished?}
-H3{simulation is finished?}
+H1{Simulation is finished?}
+H2{Simulation is finished?}
+H3{Simulation is finished?}
 
 I{Has the coder completed required compilations?}
 
-Z[stop]
+Z[Stop thread]
 
 J{dongles are avaible}
 K[take dongles]
@@ -118,7 +118,7 @@ end
 subgraph MONITOR
 D --> R{Is burnout?}
 R --> S{Is finish?}
-R -->|yes| T[end of threads]
+R -->|yes| T[end of simulation]
 S -->|no| R
 R -->|no| R
 S -->|yes| T
@@ -134,9 +134,10 @@ class B,C,D,E,F,G,K,L,M,N,O,P,Q,T,X,Y process
 class H1,H2,H3,I,J,R,S decision
 
 class Z alert
-    D --> I
-    K --> H1
-    I --> J
+
+D --> I
+K --> H1
+I --> J
 ```
 ## Instructions
 
