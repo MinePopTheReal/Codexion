@@ -76,67 +76,67 @@ Below is a simplified diagram of the program execution:
 
 ```mermaid
 flowchart TD
-A[MAIN] --> B[parsing]
-B --> C[init mutex]
+subgraph MAIN
+B[parsing]
+B --> C[init simulation]
 C --> D[start threads]
 D --> X[join threads]
 X --> Y[clean simulation]
-
-D --> E[CODEURS]
-D --> F[MONITOR]
+end
 
 %% CODE
+subgraph CODERS
+H1{simulation is finished?}
+H2{simulation is finished?}
+H3{simulation is finished?}
 
-	H{simulation is finished?}
+I{Has the coder completed required compilations?}
 
-H -->|yes| Z[Stop] 
-H -->|no| I{Has the coder completed required compilations?}
+Z[stop]
 
-I -->|yes| Z 
-I -->|no| J[wait dongles] 
+J{dongles are avaible}
+K[take dongles]
+L[compile] --> H2
+M[debug] --> H3
+N[refactor] --> I
+O[release dongles]
 
-J --> K{available?} 
-K -->|no| J 
-K -->|yes| L[take dongles] 
+J --> |no| J
+J --> |yes| K
 
-L --> M[compile] 
-M --> N[release dongles] 
-N --> O[debug] 
-O --> P[refactor]
+H2 --- O
+H1 --> |yes| Z
+H3 --> |yes| Z
+H1 --> |no| L
+H3 --> |no| N
 
-P
-E
+O --> |no| M
+O --> |yes| Z
+end
 
 %% MONITOR
-F --> Q[Loop]
-Q --> R{is burnout or is finish?}
-R -->|yes| S[simulation is finish]
-R -->|no| Q
-
-%% FIN
-S --> T[Join threads]
-T --> U[Cleanup]
+subgraph MONITOR
+D --> R{Is burnout?}
+R --> S{Is finish?}
+R -->|yes| T[end of threads]
+S -->|no| R
+R -->|no| R
+S -->|yes| T
+end
 
 %% STYLES
 classDef main fill:#1e1e2f,color:#fff,stroke:#ffffff
 classDef process fill:#3b82f6,color:#fff,stroke:#1e3a8a
 classDef decision fill:#f59e0b,color:#fff,stroke:#92400e
-classDef end_node fill:#10b981,color:#fff,stroke:#065f46
 classDef alert fill:#ef4444,color:#fff,stroke:#7f1d1d
 class A main
-class B,C,D,E,F,G,J,L,M,N,O,P,Q,T,X,Y process
-class H,I,K,R decision
-class S,U end_node
+class B,C,D,E,F,G,K,L,M,N,O,P,Q,T,X,Y process
+class H1,H2,H3,I,J,R,S decision
+
 class Z alert
-	P
-	P
-	P
-	J
-	H
-	M --- H
-	O --- H
-	P --- H
-	E --- I
+    D --> I
+    K --> H1
+    I --> J
 ```
 ## Instructions
 
