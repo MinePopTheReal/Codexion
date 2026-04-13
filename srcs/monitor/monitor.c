@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:41 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 15:25:23 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/13 13:30:24 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,10 @@ void	*monitor(void *ptr)
 		i = 0;
 		while (i < shared->parse_result.number_of_coder)
 		{
-			pthread_mutex_lock(&shared->coders[i].mutex_coder);
-			if (!is_burnout(&shared->coders[i]))
-			{
-				pthread_mutex_unlock(&shared->coders[i].mutex_coder);
+			if (is_burnout(&shared->coders[i]))
 				return (NULL);
-			}
-			if (!is_finish(&shared->coders[i]))
-			{
-				pthread_mutex_unlock(&shared->coders[i].mutex_coder);
+			if (is_finish(&shared->coders[i]))
 				return (NULL);
-			}
-			pthread_mutex_unlock(&shared->coders[i].mutex_coder);
 			i++;
 		}
 	}

@@ -45,6 +45,8 @@ BASE_NAME := create_coders_list \
 			smart_sleep \
 			get_is_run \
 			print_state \
+			clean_sim \
+			free_mutex
 
 VPATH := $(SRCS_DIR): \
 		$(SRCS_DIR)/entities: \
@@ -66,7 +68,7 @@ CFLAGS := -Wall -Wextra -Werror -pthread -Icoders
 all: $(NAME)
 
 $(NAME): $(OBJS) 
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -fsanitize=thread
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 $(OBJS_DIR) $(DEPS_DIR):
 	mkdir -p $@

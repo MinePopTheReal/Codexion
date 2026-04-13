@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:26 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 16:46:14 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/13 12:08:29 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ bool			smart_sleep(long long int time_ms, t_coder *coder);
 
 // utils
 bool			get_is_run(t_coder *coder);
+bool			clean_sim(t_global_data *shared);
+bool			free_mutex(t_global_data *shared);
 bool			print_state(int coder_id, char *state, t_coder *coder);
 
 #endif

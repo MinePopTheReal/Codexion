@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_couldown.c                                   :+:      :+:    :+:   */
+/*   clean_sim.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 23:30:25 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 17:35:36 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/13 11:21:07 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/13 13:06:27 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <prototypes.h>
 #include <types.h>
 
-bool	check_cooldown(t_coder *coder, t_dongle_order *dongle_order)
+bool	clean_sim(t_global_data *shared)
 {
-	if (!(dongle_order->first->release_time == -1) && \
-get_curr_time_from_start() - dongle_order->first->release_time < \
-coder->shared->parse_result.dongle_cooldown)
+	free_entities(shared);
+	free_queues(shared);
+	if (!free_mutex(shared))
+	{
+		print_error("Mutex destruction failed.");
 		return (false);
-	else if (!(dongle_order->second->release_time == -1) && \
-get_curr_time_from_start() - dongle_order->second->release_time < \
-coder->shared->parse_result.dongle_cooldown)
-		return (false);
+	}
 	return (true);
 }

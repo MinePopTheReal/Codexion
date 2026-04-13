@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:29:37 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/13 11:39:35 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ struct s_global_data
 	struct s_parsing		parse_result;
 	pthread_mutex_t			mutex_is_run;
 	pthread_mutex_t			mutex_print;
-	pthread_mutex_t			mutext_global;
+	pthread_mutex_t			mutex_global;
 };
 
 struct s_monitor

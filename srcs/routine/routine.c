@@ -25,10 +25,10 @@ void	*routine(void *ptr)
 	pthread_mutex_unlock(&coder->mutex_coder);
 	get_first_second(coder, &dongle_order);
 	if (coder->id % 2 == 0)
-		usleep(500);
+		usleep(1500);
 	if (dongle_order.second == dongle_order.first)
 		return (NULL);
-	while (get_is_run(coder))
+	while (true)
 	{
 		if ((coder->nb_compiles < \
 coder->shared->parse_result.number_of_compiles))

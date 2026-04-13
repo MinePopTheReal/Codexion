@@ -6,9 +6,30 @@ of the 42 curriculum by tmalpert*
 ### Project Overview
 
 Codexion is a **multithreading** project whose goal is to simulate the simultaneous execution of multiple “coders” working on different tasks (compiling, debugging, refactoring).<br>
-To compile, each coder must acquire two dongles and hold them for the entire compilation phase. These dongles are shared between coders in such a way that each coder shares their two dongles with their immediate neighbors.<br>
+To compile, each coder must acquire two dongles and hold them for the entire compilation phase. These dongles are shared between coders in such a way that each coder shares their two dongles with their neighbors.<br>
 Each coder is represented by a **thread**, allowing us to reproduce a concurrent environment where multiple actions occur in parallel.<br>
 This project demonstrates fundamental concepts of **concurrent programming** in C, using the ```pthread``` library.
+
+#### Here is a more detailed explanation of the project based on the topic:
+
+>Here are the things you need to know if you want to succeed in this assignment:
+> - One or more coders sit in a circular inclusive co-working hub.
+>In the center, there is a shared Quantum Compiler.
+> - The coders alternatively compile, debug, or refactor.
+>While compiling, they are not debugging nor refactoring;
+>while debugging, they are not compiling nor refactoring;
+>and, of course, while refactoring, they are not compiling nor debugging.
+> - There are USB dongles on the table. There are as many dongles as coders.
+> - Compiling quantum code requires two dongles plugged in simultaneously,
+>one in each hand: a coder takes their left and right dongles to compile.
+> - When a coder finishes compiling, they put both dongles back on the table and start
+>debugging.
+>Once debugging is done, they start refactoring. The simulation stops when a coder
+>burns out due to lack of compiling.
+> - Every coder needs to compile regularly and should never burn out.
+> - Coders do not communicate with each other.
+> - Coders do not know if another coder is about to burn out.
+> - Needless to say, coders should avoid burnout!
 
 ### What is Multithreading?
 
@@ -47,7 +68,9 @@ Result: unpredictable behavior and hard-to-reproduce bugs.
 A deadlock occurs when two (or more) threads are waiting for resources held by each other.
 Result: the program becomes completely stuck.
 
-Execution Diagram
+Of course, there are many other mistakes, but these two are the most common.
+
+### UML
 
 Below is a simplified diagram of the program execution:
 
@@ -56,6 +79,8 @@ flowchart TD
 A[MAIN] --> B[parsing]
 B --> C[init mutex]
 C --> D[start threads]
+D --> X[join threads]
+X --> Y[clean simulation]
 
 D --> E[CODEURS]
 D --> F[MONITOR]
@@ -98,7 +123,7 @@ classDef decision fill:#f59e0b,color:#fff,stroke:#92400e
 classDef end_node fill:#10b981,color:#fff,stroke:#065f46
 classDef alert fill:#ef4444,color:#fff,stroke:#7f1d1d
 class A main
-class B,C,D,E,F,G,J,L,M,N,O,P,Q,T process
+class B,C,D,E,F,G,J,L,M,N,O,P,Q,T,X,Y process
 class H,I,K,R decision
 class S,U end_node
 class Z alert
@@ -163,7 +188,7 @@ Output Format
 - [How to use pthread](https://perso.ens-lyon.fr/francois.schwarzentruber/teaching/l3-prog/book/c_thread.html)
 
 
-## Disclaimer
-1/ During this project, I used AI tools primarily to help me understand multithreading functions, as well as to translate and edit certain sections of the README. 
-
-2/ This project was carried out as part of the core curriculum at 42 school. It is not intended to be perfect, but rather to illustrate my level and progress at this stage of my journey at 42 school.
+>## Disclaimer
+> 1/ During this project, I used AI tools primarily to help me understand multithreading functions, as well as to translate and edit certain sections of the README. 
+> 
+> 2/ This project was carried out as part of the core curriculum at 42 school. It is not intended to be perfect, but rather to illustrate my level and progress at this stage of my journey at 42 school.

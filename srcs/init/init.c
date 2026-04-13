@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:23:29 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 16:26:24 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/13 13:13:30 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ bool	init(t_global_data *shared)
 		return (false);
 	if (!mutex_init(&shared->mutex_is_run))
 		return (false);
+	get_curr_time_from_start();
 	return (true);
 }
