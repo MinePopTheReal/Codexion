@@ -1,7 +1,8 @@
 NAME := codexion
 
 BUILDDIR := .build
-SRCS_DIR := srcs
+
+SRCS_DIR := coders/srcs
 OBJS_DIR := $(BUILDDIR)/objs
 DEPS_DIR := $(BUILDDIR)/deps
 
@@ -63,7 +64,7 @@ OBJS := $(addprefix $(OBJS_DIR)/, $(addsuffix .o, $(BASE_NAME)))
 DEPS := $(addprefix $(DEPS_DIR)/, $(addsuffix .d, $(BASE_NAME)))
 
 DEPS_FLAGS := -MD -MF
-CFLAGS := -Wall -Wextra -Werror -pthread -Icoders
+CFLAGS := -Wall -Wextra -Werror -pthread -Icoders/includes
 
 all: $(NAME)
 

@@ -6,12 +6,12 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 13:00:59 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 13:01:57 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:46:51 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../coders/types.h"
-#include "../coders/prototypes.h"
+#include "types.h"
+#include "prototypes.h"
 
 bool	is_valid_number(char *parse_value)
 {
