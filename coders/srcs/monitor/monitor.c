@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:41 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/13 13:30:24 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/15 18:17:28 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	*monitor(void *ptr)
 	int				i;
 
 	shared = (t_global_data *)ptr;
+	while (!get_sim_is_ready(shared))
+		usleep(50);
 	while (true)
 	{
 		i = 0;

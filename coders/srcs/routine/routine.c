@@ -20,13 +20,7 @@ void	*routine(void *ptr)
 	t_dongle_order	dongle_order;
 
 	coder = (t_coder *) ptr;
-	pthread_mutex_lock(&coder->mutex_coder);
-	coder->last_compile = get_curr_time_from_start();
-	pthread_mutex_unlock(&coder->mutex_coder);
-	get_first_second(coder, &dongle_order);
-	if (coder->id % 2 == 0)
-		usleep(1500);
-	if (dongle_order.second == dongle_order.first)
+	if (!init_routine(coder, &dongle_order))
 		return (NULL);
 	while (true)
 	{

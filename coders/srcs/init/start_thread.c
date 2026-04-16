@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:22:56 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/13 13:12:00 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/16 10:49:37 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,9 @@ NULL, &routine, &shared->coders[i]) != 0)
 	if (pthread_create(&monitor_data->thread_monitor, \
 NULL, &monitor, shared) != 0)
 		return (false);
+	get_curr_time_from_start();
+	pthread_mutex_lock(&shared->mutex_is_run);
+	shared->sim_is_ready = true;
+	pthread_mutex_unlock(&shared->mutex_is_run);
 	return (true);
 }

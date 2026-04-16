@@ -17,8 +17,9 @@ bool	wait_dongle(t_coder *coder, t_dongle_order *dongle_order)
 {
 	while (!can_i_take(coder, dongle_order))
 	{
-		if (!smart_sleep(1, coder))
+		if (!get_is_run(coder))
 			return (false);
+		usleep(50);
 	}
 	return (true);
 }

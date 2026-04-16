@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/13 11:39:35 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/16 11:51:13 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ struct s_coder
 struct s_global_data
 {
 	bool					is_run;
+	bool					sim_is_ready;
 	struct s_coder			*coders;
 	struct s_dongle			*dongles;
 	struct s_parsing		parse_result;
 	pthread_mutex_t			mutex_is_run;
 	pthread_mutex_t			mutex_print;
-	pthread_mutex_t			mutex_global;
 };
 
 struct s_monitor

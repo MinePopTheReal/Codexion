@@ -25,10 +25,12 @@ bool	compile(t_coder *coder)
 		return (false);
 	}
 	coder->last_compile = get_curr_time_from_start();
-	coder->nb_compiles += 1;
 	compile_time = coder->shared->parse_result.time_to_compile;
 	pthread_mutex_unlock(&coder->mutex_coder);
 	if (!smart_sleep(compile_time, coder))
 		return (false);
+	pthread_mutex_lock(&coder->mutex_coder);
+	coder->nb_compiles += 1;
+	pthread_mutex_unlock(&coder->mutex_coder);
 	return (true);
 }

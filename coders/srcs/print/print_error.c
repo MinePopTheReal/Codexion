@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   codexion.c                                         :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/15 18:21:09 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/03/17 11:26:59 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/15 14:05:08 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
+#include "colors.h"
 #include "prototypes.h"
 
-int	main(int argc, char **argv)
+bool	print_error(char *message)
 {
-	t_global_data	shared;
-	t_monitor		monitor_data;
-
-	memset(&shared.parse_result, 0, sizeof(t_parsing));
-	if (!parsing(argc, argv, &shared.parse_result))
-		return (-1);
-	if (!init(&shared))
-		return (-1);
-	if (!start_thread(&shared, &monitor_data))
-		return (-1);
-	if (!join_thread(&shared, &monitor_data))
-		return (-1);
-	if (!clean_sim(&shared))
-		return (-1);
-	return (0);
+	fprintf(stderr, "[" BOLD RED "ERROR" RESET "]: %s\n", message);
+	return (false);
 }

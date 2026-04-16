@@ -10,6 +10,7 @@ BASE_NAME := create_coders_list \
 			create_dongles_list \
 			free_entities \
 			init \
+			init_routine \
 			join_thread \
 			mutex_init \
 			shared_init \
@@ -19,7 +20,6 @@ BASE_NAME := create_coders_list \
 			is_finish \
 			monitor \
 			parsing \
-			print_error \
 			is_valid_number \
 			set_value \
 			append_both \
@@ -46,19 +46,26 @@ BASE_NAME := create_coders_list \
 			smart_sleep \
 			get_is_run \
 			print_state \
+			print_error \
 			clean_sim \
-			free_mutex
+			free_mutex \
+			ft_atoi \
+			get_sim_is_ready \
+			ft_isdigit
 
 VPATH := $(SRCS_DIR): \
+		$(SRCS_DIR)/actions: \
+		$(SRCS_DIR)/clean: \
 		$(SRCS_DIR)/entities: \
+		$(SRCS_DIR)/get: \
 		$(SRCS_DIR)/init \
 		$(SRCS_DIR)/main: \
 		$(SRCS_DIR)/monitor: \
 		$(SRCS_DIR)/parsing: \
+		$(SRCS_DIR)/print: \
 		$(SRCS_DIR)/queue: \
 		$(SRCS_DIR)/routine: \
-		$(SRCS_DIR)/time: \
-		$(SRCS_DIR)/utils
+		$(SRCS_DIR)/time:
 SRCS := $(addsuffix .c, $(BASE_NAME))
 OBJS := $(addprefix $(OBJS_DIR)/, $(addsuffix .o, $(BASE_NAME)))
 DEPS := $(addprefix $(DEPS_DIR)/, $(addsuffix .d, $(BASE_NAME)))

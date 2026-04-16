@@ -94,12 +94,12 @@ I{Has the coder completed required compilations?}
 
 Z[Stop thread]
 
-J{dongles are avaible}
-K[take dongles]
-L[compile] --> H2
-M[debug] --> H3
-N[refactor] --> I
-O[release dongles]
+J{Dongles are avaible}
+K[Take dongles]
+L[Compile] --> H2
+M[Debug] --> H3
+N[Refactor] --> I
+O[Release dongles]
 
 J --> |no| J
 J --> |yes| K
@@ -118,7 +118,7 @@ end
 subgraph MONITOR
 D --> R{Is burnout?}
 R --> S{Is finish?}
-R -->|yes| T[end of simulation]
+R -->|yes| T[End of simulation]
 S -->|no| R
 R -->|no| R
 S -->|yes| T

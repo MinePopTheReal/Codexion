@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 11:23:35 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/13 12:10:33 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/15 11:25:34 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ bool	free_mutex(t_global_data *shared)
 	if (pthread_mutex_destroy(&shared->mutex_print) != 0)
 		state = false;
 	if (pthread_mutex_destroy(&shared->mutex_is_run) != 0)
-		state = false;
-	if (pthread_mutex_destroy(&shared->mutex_global) != 0)
 		state = false;
 	return (state);
 }
