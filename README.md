@@ -94,12 +94,14 @@ I{Has the coder completed required compilations?}
 
 Z[Stop thread]
 
-J{Dongles are avaible}
 K[Take dongles]
 L[Compile] --> H2
 M[Debug] --> H3
 N[Refactor] --> I
 O[Release dongles]
+
+I --> |no|J{Dongles are avaible}
+I --> |yes| Z
 
 J --> |no| J
 J --> |yes| K
@@ -137,7 +139,6 @@ class Z alert
 
 D --> I
 K --> H1
-I --> J
 ```
 ## Instructions
 
