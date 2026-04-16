@@ -56,19 +56,6 @@ A thread is a sub-part of a process, i.e., an execution unit within a program.
 A process is a program in execution.
 The CPU, composed of multiple cores, executes processes and their threads by distributing and switching between them across cores.
 Common Multithreading Issues
-<br>
-<br>
-
-If not handled properly, multithreading can lead to:
-- **Race Conditions**: <br>
-A race condition occurs when multiple threads access and modify the same data simultaneously without proper synchronization.
-Result: unpredictable behavior and hard-to-reproduce bugs.
-
-- **Deadlocks**: <br>
-A deadlock occurs when two (or more) threads are waiting for resources held by each other.
-Result: the program becomes completely stuck.
-
-Of course, there are many other mistakes, but these two are the most common.
 
 ### UML
 
@@ -140,6 +127,33 @@ class Z alert
 D --> I
 K --> H1
 ```
+
+## Thread synchronization mechanisms
+To ensure safe and consistent execution across multiple threads, several synchronization mechanisms are implemented:
+
+- Thread start synchronization: All threads wait until every thread has been created before starting their routine. This prevents early execution and ensures a fair and simultaneous start.
+- Mutex locks: Shared resources are protected using mutexes. Once a mutex is locked by a thread, other threads must wait until it is unlocked before accessing the same resource, preventing race conditions.
+- Monitoring system: A dedicated monitor continuously observes the state of the threads to detect critical conditions (such as a thread burnout).
+
+## Blocking cases handled
+If not handled properly, multithreading can lead to:
+- **Race Conditions**: <br>
+A race condition occurs when multiple threads access and modify the same data simultaneously without proper synchronization.
+Result: unpredictable behavior and hard-to-reproduce bugs.
+To protect against this, I implemented a system using mutexes to lock this data and block other users, who must wait for it to be released.
+
+- **Deadlocks**: <br>
+A deadlock occurs when two (or more) threads are waiting for resources held by each other.
+Result: the program becomes completely stuck.
+To work around this error in my routine, I compare the dongle addresses—the smallest one first and the other second—so that I always hold the dongles in the same hands
+
+- **Starvation**: <br>
+A starvation condition occurs when a thread is perpetually deprived of the resources it needs to complete its execution, even though those resources are available.
+Result: some threads may never progress while others continue executing.
+To prevent this, by releasing dongle quickly after use. Additionally, the consistent locking order and the routine design avoid situations where the same threads are repeatedly favored, ensuring that every thread eventually gets access to the required resources.
+
+Of course, there are many other mistakes, but these three are the most common.
+
 ## Instructions
 
 To use the project:
