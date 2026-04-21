@@ -8,13 +8,14 @@ DEPS_DIR := $(BUILDDIR)/deps
 
 BASE_NAME := create_coders_list \
 			create_dongles_list \
-			free_entities \
 			init \
 			init_routine \
-			join_thread \
 			mutex_init \
 			shared_init \
-			start_thread \
+			join_threads \
+			start_threads \
+			init_queues \
+			start_sim \
 			codexion \
 			is_burnout \
 			is_finish \
@@ -28,6 +29,7 @@ BASE_NAME := create_coders_list \
 			free_queue \
 			last_coder \
 			new_node \
+			reorganize_queue \
 			priority \
 			swap_coder \
 			actions \
@@ -49,6 +51,7 @@ BASE_NAME := create_coders_list \
 			print_error \
 			clean_sim \
 			free_mutex \
+			clean_mutexs \
 			ft_atoi \
 			get_sim_is_ready \
 			ft_isdigit

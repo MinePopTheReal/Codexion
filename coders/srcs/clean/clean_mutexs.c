@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   join_thread.c                                      :+:      :+:    :+:   */
+/*   clean_mutexs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/10 16:25:30 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/16 11:03:52 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/13 11:23:35 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/21 11:08:49 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
-#include "prototypes.h"
+#include <prototypes.h>
+#include <types.h>
 
-bool	join_thread(t_global_data *shared, t_monitor *monitor_data)
+bool	clean_mutexs(t_global_data *shared)
 {
-	int	i;
+	int		i;
+	bool	state;
 
 	i = 0;
-	pthread_join(monitor_data->thread_monitor, NULL);
+	state = true;
 	while (i < shared->parse_result.number_of_coder)
 	{
-		pthread_join(shared->coders[i].thread_coder, NULL);
+		if (!shared->coders || !free_mutex(&shared->coders[i].mutex_coder))
+			state = false;
+		if (!shared->dongles || !free_mutex(&shared->dongles[i].mutex_dongle))
+			state = false;
 		i++;
 	}
-	return (true);
+	if (!free_mutex(&shared->mutex_print))
+		state = false;
+	if (!free_mutex(&shared->mutex_is_run))
+		state = false;
+	return (state);
 }

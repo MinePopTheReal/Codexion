@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:40:33 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 16:45:49 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/21 11:14:11 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@ void	swap_coder(t_waiting_queue **queue)
 	t_coder	*temp;
 
 	temp = NULL;
-	temp = (*queue)->coder;
-	(*queue)->coder = (*queue)->next->coder;
-	(*queue)->next->coder = temp;
+	if (!queue || !*queue || !(*queue)->next)
+		return ;
+	if (priority((*queue)->coder, (*queue)->next->coder, \
+&(*queue)->coder->shared->parse_result))
+	{
+		temp = (*queue)->coder;
+		(*queue)->coder = (*queue)->next->coder;
+		(*queue)->next->coder = temp;
+	}
 }

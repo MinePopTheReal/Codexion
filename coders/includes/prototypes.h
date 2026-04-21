@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:26 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/16 11:45:50 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/21 13:34:33 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@
 
 // actions
 bool			debug(t_coder *coder);
-bool			compile(t_coder *coder);
 bool			refactor(t_coder *coder);
 bool			actions(t_coder *coder, t_dongle_order *dongle_order);
+bool			compile(t_coder *coder, t_dongle_order *dongle_order);
 
 // clean
 bool			clean_sim(t_global_data *shared);
-bool			free_mutex(t_global_data *shared);
+bool			clean_mutexs(t_global_data *shared);
+bool			free_mutex(pthread_mutex_t *mutex);
 
 // entities
-t_dongle		*create_dongle_list(int nb_coder);
+t_dongle		*create_dongle_list(t_global_data *shared);
 t_coder			*create_coders_list(t_global_data *shared);
-void			free_entities(t_global_data *global_data);
 
 // get
 bool			get_is_run(t_coder *coder);
@@ -46,11 +46,14 @@ bool			is_finish(t_coder *coder);
 
 // init
 bool			init(t_global_data *shared);
+bool			init_queues(t_global_data *shared);
 bool			shared_init(t_global_data *shared);
 bool			mutex_init(pthread_mutex_t	*mutex);
+bool			start_sim(t_global_data *shared, t_monitor *monitor_data);
 bool			init_routine(t_coder *coder, t_dongle_order *dongle_order);
-bool			join_thread(t_global_data *shared, t_monitor *monitor_data);
-bool			start_thread(t_global_data *shared, t_monitor *monitor_data);
+int				start_threads(t_global_data *shared, t_monitor *monitor_data);
+void			join_threads(t_global_data *shared, t_monitor *monitor_data, \
+int nb_created);
 
 // parsing
 int				ft_isdigit(int c);
@@ -65,9 +68,10 @@ void			free_queues(t_global_data *shared);
 void			swap_coder(t_waiting_queue **queue);
 t_waiting_queue	*last_coder(t_waiting_queue *queue);
 t_coder			*first_pop_queue(t_waiting_queue **queue);
-void			append_queue(t_waiting_queue **queue, t_coder *coder);
-void			append_both(t_coder *coder, t_dongle_order *dongle_order);
+bool			append_queue(t_waiting_queue **queue, t_coder *coder);
+bool			append_both(t_coder *coder, t_dongle_order *dongle_order);
 bool			priority(t_coder *first, t_coder *second, t_parsing *parsing);
+void			reorganize_queue(t_coder *coder, t_dongle_order *dongle_order);
 
 // routine
 void			*routine(void *ptr);

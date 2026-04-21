@@ -13,7 +13,7 @@
 #include <prototypes.h>
 #include <types.h>
 
-bool	compile(t_coder *coder)
+bool	compile(t_coder *coder, t_dongle_order *dongle_order)
 {
 	long long int	compile_time;
 
@@ -32,5 +32,6 @@ bool	compile(t_coder *coder)
 	pthread_mutex_lock(&coder->mutex_coder);
 	coder->nb_compiles += 1;
 	pthread_mutex_unlock(&coder->mutex_coder);
+	reorganize_queue(coder, dongle_order);
 	return (true);
 }

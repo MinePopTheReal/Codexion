@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_entities.c                                    :+:      :+:    :+:   */
+/*   join_threads.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 23:47:22 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/09 23:47:42 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/21 13:20:50 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/21 13:23:08 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
 #include "prototypes.h"
+#include "types.h"
 
-void	free_entities(t_global_data *global_data)
+void	join_threads(t_global_data *shared, t_monitor *monitor_data, \
+int nb_created)
 {
-	free(global_data->dongles);
-	free(global_data->coders);
+	int		i;
+
+	i = -1;
+	pthread_join(monitor_data->thread_monitor, NULL);
+	while (++i < nb_created)
+		pthread_join(shared->coders[i].thread_coder, NULL);
 }

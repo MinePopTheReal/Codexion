@@ -6,23 +6,23 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 10:41:17 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/13 14:57:24 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/20 14:05:02 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 #include "types.h"
 
-void	append_queue(t_waiting_queue **queue, t_coder *coder)
+bool	append_queue(t_waiting_queue **queue, t_coder *coder)
 {
 	t_waiting_queue	*new;
 	t_waiting_queue	*last;
 
 	new = new_node();
 	if (!queue || !coder)
-		return ;
+		return (false);
 	if (!new)
-		return ;
+		return (false);
 	else if (*queue == NULL)
 	{
 		new->coder = coder;
@@ -34,9 +34,6 @@ void	append_queue(t_waiting_queue **queue, t_coder *coder)
 		last->next = new;
 		new->prev = last;
 		new->coder = coder;
-		if (coder->shared->parse_result.scheduler \
-&& (*queue)->next == new \
-&& priority((*queue)->coder, coder, &coder->shared->parse_result))
-			swap_coder(queue);
 	}
+	return (true);
 }

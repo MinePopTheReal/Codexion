@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shared_init.c                                      :+:      :+:    :+:   */
+/*   start_threads.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/10 16:25:37 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/20 23:49:51 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/21 13:19:43 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/21 13:20:25 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
 #include "prototypes.h"
+#include "types.h"
 
-bool	shared_init(t_global_data *shared)
+int	start_threads(t_global_data *shared, t_monitor *monitor_data)
 {
-	int	i;
+	int		nb_created;
 
-	i = 0;
-	shared->dongles = create_dongle_list(shared);
-	shared->coders = create_coders_list(shared);
-	if (!shared->dongles || !shared->coders)
+	nb_created = -1;
+	if (pthread_create(&monitor_data->thread_monitor, \
+NULL, &monitor, shared) != 0)
 		return (false);
-	shared->sim_is_ready = false;
-	shared->is_run = true;
-	while (shared->dongles && i < shared->parse_result.number_of_coder)
+	while (++nb_created < shared->parse_result.number_of_coder)
 	{
-		shared->dongles[i].waiting_queue = NULL;
-		i++;
+		if (pthread_create(&shared->coders[nb_created].thread_coder, \
+NULL, &routine, &shared->coders[nb_created]) != 0)
+			break ;
 	}
-	return (true);
+	return (nb_created);
 }

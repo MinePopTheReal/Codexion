@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 10:51:29 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/16 10:52:35 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/21 13:47:05 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ bool	init_routine(t_coder *coder, t_dongle_order *dongle_order)
 	coder->last_compile = get_curr_time_from_start();
 	pthread_mutex_unlock(&coder->mutex_coder);
 	get_first_second(coder, dongle_order);
-	if (coder->id % 2 == 0)
-		usleep(500);
 	if (dongle_order->second == dongle_order->first)
 		return (false);
 	return (true);

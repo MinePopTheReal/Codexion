@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/15 18:21:09 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/21 13:37:54 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 
 int	main(int argc, char **argv)
 {
+	bool			state;
 	t_global_data	shared;
 	t_monitor		monitor_data;
 
+	state = true;
 	memset(&shared.parse_result, 0, sizeof(t_parsing));
 	if (!parsing(argc, argv, &shared.parse_result))
-		return (-1);
+		return (false);
 	if (!init(&shared))
-		return (-1);
-	if (!start_thread(&shared, &monitor_data))
-		return (-1);
-	if (!join_thread(&shared, &monitor_data))
-		return (-1);
+		state = false;
+	else if (!start_sim(&shared, &monitor_data))
+		state = false;
 	if (!clean_sim(&shared))
-		return (-1);
-	return (0);
+		state = false;
+	return (state - 1);
 }

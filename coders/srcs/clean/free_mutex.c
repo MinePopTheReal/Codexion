@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_mutex.c                                       :+:      :+:    :+:   */
+/*   free_mutexs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 11:23:35 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/15 11:25:34 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/21 10:59:18 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/21 11:08:42 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <prototypes.h>
-#include <types.h>
+#include "prototypes.h"
+#include "types.h"
 
-bool	free_mutex(t_global_data *shared)
+bool	free_mutex(pthread_mutex_t *mutex)
 {
-	int		i;
 	bool	state;
 
-	i = 0;
 	state = true;
-	while (i < shared->parse_result.number_of_coder)
-	{
-		if (pthread_mutex_destroy(&shared->coders[i].mutex_coder) != 0)
-			state = false;
-		if (pthread_mutex_destroy(&shared->dongles[i].mutex_dongle) != 0)
-			state = false;
-		i++;
-	}
-	if (pthread_mutex_destroy(&shared->mutex_print) != 0)
-		state = false;
-	if (pthread_mutex_destroy(&shared->mutex_is_run) != 0)
-		state = false;
+	if (pthread_mutex_destroy(mutex) != 0)
+		state = print_error("Mutex destruction failed.");
 	return (state);
 }

@@ -30,7 +30,5 @@ bool	take_dongles(t_coder *coder, t_dongle_order *dongle_order)
 		pthread_mutex_unlock(&dongle_order->second->mutex_dongle);
 		return (false);
 	}
-	first_pop_queue(&dongle_order->first->waiting_queue);
-	first_pop_queue(&dongle_order->second->waiting_queue);
 	return (true);
 }

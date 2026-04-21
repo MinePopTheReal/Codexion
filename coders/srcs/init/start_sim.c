@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   start_thread.c                                     :+:      :+:    :+:   */
+/*   start_sim.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:22:56 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/16 10:49:37 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/21 13:43:52 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "types.h"
 #include "prototypes.h"
 
-bool	start_thread(t_global_data *shared, t_monitor *monitor_data)
+bool	start_sim(t_global_data *shared, t_monitor *monitor_data)
 {
-	int	i;
+	int		nb_created;
+	bool	state;
 
-	i = 0;
-	while (i < shared->parse_result.number_of_coder)
-	{
-		if (pthread_create(&shared->coders[i].thread_coder, \
-NULL, &routine, &shared->coders[i]) != 0)
-			return (false);
-		i++;
-	}
-	if (pthread_create(&monitor_data->thread_monitor, \
-NULL, &monitor, shared) != 0)
-		return (false);
+	state = true;
+	nb_created = -1;
+	nb_created = start_threads(shared, monitor_data);
 	get_curr_time_from_start();
 	pthread_mutex_lock(&shared->mutex_is_run);
+	if (nb_created < shared->parse_result.number_of_coder)
+	{
+		state = print_error("An error occurred while creating the threads.");
+		shared->is_run = false;
+	}
 	shared->sim_is_ready = true;
 	pthread_mutex_unlock(&shared->mutex_is_run);
-	return (true);
+	join_threads(shared, monitor_data, nb_created);
+	return (state);
 }

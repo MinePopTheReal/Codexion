@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 23:34:25 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/09 23:34:47 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/21 11:13:54 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 
 bool	priority(t_coder *first, t_coder *second, t_parsing	*parsing)
 {
-	long long int	first_deadline;
-	long long int	second_deadline;
 	bool			state;
 
 	state = true;
 	if (parsing->scheduler)
 	{
-		first_deadline = parsing->time_to_burnout + first->last_compile;
-		second_deadline = parsing->time_to_burnout + second->last_compile;
-		if (first_deadline < second_deadline)
+		if (first->last_compile <= second->last_compile \
+&& first->nb_compiles <= second->nb_compiles)
 			state = false;
 	}
 	return (state);

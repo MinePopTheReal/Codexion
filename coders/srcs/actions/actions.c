@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:55 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/10 11:35:40 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/20 15:18:33 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	actions(t_coder *coder, t_dongle_order *dongle_order)
 {
 	if (take_dongles(coder, dongle_order))
 	{
-		if (!compile(coder))
+		if (!compile(coder, dongle_order))
 		{
 			release_dongles(dongle_order);
 			return (false);

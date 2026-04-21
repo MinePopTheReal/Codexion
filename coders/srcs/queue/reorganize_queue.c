@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shared_init.c                                      :+:      :+:    :+:   */
+/*   reorganize_queue.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/10 16:25:37 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/20 23:49:51 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/21 10:47:31 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/21 10:49:05 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
 #include "prototypes.h"
+#include "types.h"
 
-bool	shared_init(t_global_data *shared)
+void	reorganize_queue(t_coder *coder, t_dongle_order *dongle_order)
 {
-	int	i;
-
-	i = 0;
-	shared->dongles = create_dongle_list(shared);
-	shared->coders = create_coders_list(shared);
-	if (!shared->dongles || !shared->coders)
-		return (false);
-	shared->sim_is_ready = false;
-	shared->is_run = true;
-	while (shared->dongles && i < shared->parse_result.number_of_coder)
+	if ((coder->nb_compiles < \
+coder->shared->parse_result.number_of_compiles))
 	{
-		shared->dongles[i].waiting_queue = NULL;
-		i++;
+		swap_coder(&dongle_order->first->waiting_queue);
+		swap_coder(&dongle_order->second->waiting_queue);
 	}
-	return (true);
+	else
+	{
+		first_pop_queue(&dongle_order->first->waiting_queue);
+		first_pop_queue(&dongle_order->second->waiting_queue);
+	}
 }

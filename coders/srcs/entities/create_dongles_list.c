@@ -6,23 +6,23 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 23:48:13 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/15 11:03:47 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/20 23:51:46 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "types.h"
 #include "prototypes.h" 
 
-t_dongle	*create_dongle_list(int nb_coder)
+t_dongle	*create_dongle_list(t_global_data *shared)
 {
 	int			i;
 	t_dongle	*dongles;
 
 	i = 0;
-	dongles = malloc(nb_coder * sizeof(t_dongle));
+	dongles = malloc(shared->parse_result.number_of_coder * sizeof(t_dongle));
 	if (!dongles)
 		return (NULL);
-	while (i < nb_coder)
+	while (i < shared->parse_result.number_of_coder)
 	{
 		dongles[i].release_time = -1;
 		dongles[i].id = i + 1;

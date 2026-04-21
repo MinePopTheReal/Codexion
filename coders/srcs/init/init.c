@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:23:29 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/15 18:01:23 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/20 23:56:35 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,26 @@
 
 bool	init(t_global_data *shared)
 {
-	int	i;
+	int		i;
+	bool	state;
 
 	i = 0;
+	state = true;
 	if (!shared_init(shared))
-		return (false);
+		state = false;
 	while (i < shared->parse_result.number_of_coder)
 	{
-		if (!mutex_init(&shared->coders[i].mutex_coder))
-			return (false);
-		if (!mutex_init(&shared->dongles[i].mutex_dongle))
-			return (false);
+		if (!shared->coders || !mutex_init(&shared->coders[i].mutex_coder))
+			state = false;
+		if (!shared->dongles || !mutex_init(&shared->dongles[i].mutex_dongle))
+			state = false;
 		i++;
 	}
 	if (!mutex_init(&shared->mutex_print))
-		return (false);
+		state = false;
 	if (!mutex_init(&shared->mutex_is_run))
-		return (false);
-	return (true);
+		state = false;
+	if (state == false || !init_queues(shared))
+		state = false;
+	return (state);
 }

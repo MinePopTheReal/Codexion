@@ -24,9 +24,6 @@ void	*routine(void *ptr)
 		return (NULL);
 	while (true)
 	{
-		if ((coder->nb_compiles < \
-coder->shared->parse_result.number_of_compiles))
-			append_both(coder, &dongle_order);
 		if (!is_done(coder))
 			break ;
 		if (!wait_dongle(coder, &dongle_order))
