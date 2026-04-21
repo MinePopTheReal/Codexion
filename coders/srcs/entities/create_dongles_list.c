@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 23:48:13 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/20 23:51:46 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/21 22:05:20 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_dongle	*create_dongle_list(t_global_data *shared)
 	{
 		dongles[i].release_time = -1;
 		dongles[i].id = i + 1;
+		dongles[i].waiting_queue = NULL;
 		i++;
 	}
 	return (dongles);

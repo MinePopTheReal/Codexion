@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/21 13:37:54 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/21 19:38:14 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ int	main(int argc, char **argv)
 	if (!parsing(argc, argv, &shared.parse_result))
 		return (false);
 	if (!init(&shared))
+		return (false);
+	if (!start_sim(&shared, &monitor_data))
 		state = false;
-	else if (!start_sim(&shared, &monitor_data))
-		state = false;
-	if (!clean_sim(&shared))
-		state = false;
+	clean_sim(&shared);
 	return (state - 1);
 }

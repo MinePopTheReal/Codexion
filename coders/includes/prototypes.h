@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:26 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/21 13:34:33 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/21 22:13:32 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ bool			actions(t_coder *coder, t_dongle_order *dongle_order);
 bool			compile(t_coder *coder, t_dongle_order *dongle_order);
 
 // clean
-bool			clean_sim(t_global_data *shared);
-bool			clean_mutexs(t_global_data *shared);
+void			clean_sim(t_global_data *shared);
+void			clean_mutexs(t_global_data *shared);
 bool			free_mutex(pthread_mutex_t *mutex);
+int				cleanup(t_global_data *shared, int state, int i);
 
 // entities
 t_dongle		*create_dongle_list(t_global_data *shared);
@@ -45,7 +46,7 @@ bool			is_burnout(t_coder *coder);
 bool			is_finish(t_coder *coder);
 
 // init
-bool			init(t_global_data *shared);
+int				init(t_global_data *shared);
 bool			init_queues(t_global_data *shared);
 bool			shared_init(t_global_data *shared);
 bool			mutex_init(pthread_mutex_t	*mutex);

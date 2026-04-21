@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:22:56 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/21 13:43:52 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/21 16:10:46 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ bool	start_sim(t_global_data *shared, t_monitor *monitor_data)
 	bool	state;
 
 	state = true;
-	nb_created = -1;
 	nb_created = start_threads(shared, monitor_data);
 	get_curr_time_from_start();
 	pthread_mutex_lock(&shared->mutex_is_run);
@@ -27,6 +26,11 @@ bool	start_sim(t_global_data *shared, t_monitor *monitor_data)
 	{
 		state = print_error("An error occurred while creating the threads.");
 		shared->is_run = false;
+	}
+	if (nb_created == -1)
+	{
+		pthread_mutex_unlock(&shared->mutex_is_run);
+		return (false);
 	}
 	shared->sim_is_ready = true;
 	pthread_mutex_unlock(&shared->mutex_is_run);

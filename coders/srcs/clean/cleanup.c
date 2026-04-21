@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_mutexs.c                                     :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 11:23:35 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/21 19:57:54 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/21 22:08:30 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/21 22:08:57 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <prototypes.h>
-#include <types.h>
+#include "prototypes.h"
+#include "types.h"
 
-void	clean_mutexs(t_global_data *shared)
+int	cleanup(t_global_data *shared, int state, int i)
 {
-	int		i;
-
-	i = 0;
-	while (i < shared->parse_result.number_of_coder)
+	if (state > 5)
+		free_queues(shared);
+	if (state > 4)
+		pthread_mutex_destroy(&shared->mutex_is_run);
+	if (state > 3)
+		pthread_mutex_destroy(&shared->mutex_print);
+	if (state >= 2)
 	{
-		if (shared->coders)
+		while (--i >= 0)
+		{
 			pthread_mutex_destroy(&shared->coders[i].mutex_coder);
-		if (shared->dongles)
 			pthread_mutex_destroy(&shared->dongles[i].mutex_dongle);
-		i++;
+		}
 	}
-	pthread_mutex_destroy(&shared->mutex_is_run);
-	pthread_mutex_destroy(&shared->mutex_print);
+	if (state >= 1)
+	{
+		free(shared->coders);
+		free(shared->dongles);
+	}
+	return (false);
 }

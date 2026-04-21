@@ -54,7 +54,8 @@ BASE_NAME := create_coders_list \
 			clean_mutexs \
 			ft_atoi \
 			get_sim_is_ready \
-			ft_isdigit
+			ft_isdigit \
+			cleanup
 
 VPATH := $(SRCS_DIR): \
 		$(SRCS_DIR)/actions: \
