@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 11:23:35 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/21 19:57:54 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/23 02:02:12 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	clean_mutexs(t_global_data *shared)
 		if (shared->coders)
 			pthread_mutex_destroy(&shared->coders[i].mutex_coder);
 		if (shared->dongles)
+		{
+			pthread_cond_destroy(&shared->dongles[i].cond_wait_dongle);
 			pthread_mutex_destroy(&shared->dongles[i].mutex_dongle);
+		}
 		i++;
 	}
 	pthread_mutex_destroy(&shared->mutex_is_run);

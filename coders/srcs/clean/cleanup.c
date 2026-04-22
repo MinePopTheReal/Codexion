@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 22:08:30 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/21 22:08:57 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/23 02:02:29 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	cleanup(t_global_data *shared, int state, int i)
 	{
 		while (--i >= 0)
 		{
+			pthread_cond_destroy(&shared->dongles[i].cond_wait_dongle);
 			pthread_mutex_destroy(&shared->coders[i].mutex_coder);
 			pthread_mutex_destroy(&shared->dongles[i].mutex_dongle);
 		}

@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:26 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/21 22:13:32 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/23 02:01:00 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ void			reorganize_queue(t_coder *coder, t_dongle_order *dongle_order);
 void			*routine(void *ptr);
 bool			is_done(t_coder *coder);
 void			release_dongles(t_dongle_order *dongle_order);
+bool			check_cooldown(t_coder *coder, t_dongle *dongle);
 bool			can_i_take(t_coder *coder, t_dongle_order *dongle_order);
-bool			wait_dongle(t_coder *coder, t_dongle_order *dongle_order);
+// bool			wait_dongle(t_coder *coder, t_dongle_order *dongle_order);
 bool			take_dongles(t_coder *coder, t_dongle_order *dongle_order);
-bool			check_cooldown(t_coder *coder, t_dongle_order *dongle_order);
 void			get_first_second(t_coder *coder, t_dongle_order	*dongle_order);
 
 // time

@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/21 15:51:55 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/23 02:01:44 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ struct s_dongle
 	long long int			release_time;
 	struct s_waiting_queue	*waiting_queue;
 	pthread_mutex_t			mutex_dongle;
+	pthread_cond_t			cond_wait_dongle;
 };
 
 struct	s_waiting_queue

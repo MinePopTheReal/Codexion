@@ -13,13 +13,18 @@
 #include <prototypes.h>
 #include <types.h>
 
-bool	wait_dongle(t_coder *coder, t_dongle_order *dongle_order)
-{
-	while (!can_i_take(coder, dongle_order))
-	{
-		if (!get_is_run(coder))
-			return (false);
-		usleep(50);
-	}
-	return (true);
-}
+// bool	wait_dongle(t_coder *coder, t_dongle_order *dongle_order)
+// {
+// 	pthread_mutex_lock(&coder->mutex_coder);
+// 	while (!can_i_take(coder, dongle_order))
+// 	{
+// 		if (!get_is_run(coder))
+// 		{
+// 			pthread_mutex_unlock(&coder->mutex_coder);
+// 			return (false);
+// 		}
+// 		pthread_cond_wait(&coder->cond_wait_dongle, &coder->mutex_coder);
+// 	}
+// 	pthread_mutex_unlock(&coder->mutex_coder);
+// 	return (true);
+// }

@@ -15,16 +15,36 @@
 
 bool	take_dongles(t_coder *coder, t_dongle_order *dongle_order)
 {
-	if (!can_i_take(coder, dongle_order))
-		return (false);
+	bool	state;
+	struct timespec ts;
+	struct timeval  tv;
+	
+
+	state = true;
+	gettimeofday(&tv, NULL);
+	ts.tv_sec = tv.tv_sec + coder->shared->parse_result.dongle_cooldown / 1000;
+	ts.tv_nsec = tv.tv_usec * 1000 + ((coder->shared->parse_result.dongle_cooldown) % 1000) * 1000000;
+	if (ts.tv_nsec >= 1000000000)
+	{
+		ts.tv_sec += ts.tv_nsec / 1000000000;
+		ts.tv_nsec %= 1000000000;
+	}
 	pthread_mutex_lock(&dongle_order->first->mutex_dongle);
-	if (!print_state(coder->id, "has taken a dongle", coder))
+	while ((coder != dongle_order->first->waiting_queue->coder) && get_is_run(coder))
+		pthread_cond_wait(&dongle_order->first->cond_wait_dongle, &dongle_order->first->mutex_dongle);
+	while (!check_cooldown(coder, dongle_order->first)  && get_is_run(coder))
+		pthread_cond_timedwait(&dongle_order->first->cond_wait_dongle, &dongle_order->first->mutex_dongle, &ts);
+	if (!state || !print_state(coder->id, "has taken a dongle", coder))
 	{
 		pthread_mutex_unlock(&dongle_order->first->mutex_dongle);
 		return (false);
 	}
 	pthread_mutex_lock(&dongle_order->second->mutex_dongle);
-	if (!print_state(coder->id, "has taken a dongle", coder))
+	while ((coder != dongle_order->second->waiting_queue->coder) && get_is_run(coder))
+		pthread_cond_wait(&dongle_order->second->cond_wait_dongle, &dongle_order->second->mutex_dongle);
+	while (!check_cooldown(coder, dongle_order->second) && get_is_run(coder))
+		pthread_cond_timedwait(&dongle_order->second->cond_wait_dongle, &dongle_order->second->mutex_dongle, &ts);
+	if (!state || !print_state(coder->id, "has taken a dongle", coder))
 	{
 		pthread_mutex_unlock(&dongle_order->first->mutex_dongle);
 		pthread_mutex_unlock(&dongle_order->second->mutex_dongle);
