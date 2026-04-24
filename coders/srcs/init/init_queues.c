@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 16:10:56 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/24 17:55:01 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/24 23:20:42 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	init_queues(t_global_data *shared)
 		{
 			get_first_second(&shared->coders[i], &dongle_order);
 			if (dongle_order.second == dongle_order.first)
-				return (false);
+				return (true);
 			if (shared->coders[i].id % 2 == parity)
 			{
 				i++;

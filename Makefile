@@ -33,7 +33,7 @@ BASE_NAME := create_coders_list \
 			priority \
 			swap_coder \
 			actions \
-			check_couldown \
+			check_cooldown \
 			compile \
 			debug \
 			get_first_second \
