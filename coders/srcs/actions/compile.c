@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   compile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmalpert <tmalpert@student.42lyon.fr>          +#+  +:+       +#+    */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 17:03:28 by tmalpert          #+#    #+#             */
 /*   Updated: 2026/04/08 17:03:28 by tmalpert         ###   ########.fr       */

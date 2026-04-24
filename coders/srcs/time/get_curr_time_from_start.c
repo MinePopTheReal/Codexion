@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_curr_time_from_start.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmalpert <tmalpert@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 23:37:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/09 23:37:11 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/24 17:55:01 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prototypes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmalpert <tmalpert@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:26 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/24 04:08:01 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/24 17:55:01 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ t_coder			*create_coders_list(t_global_data *shared);
 bool			get_is_run(t_coder *coder);
 bool			get_sim_is_ready(t_global_data *shared);
 
-// monitor
-void			*monitor(void *ptr);
-bool			is_burnout(t_coder *coder);
-bool			is_finish(t_coder *coder);
-
 // init
 int				init(t_global_data *shared);
 bool			init_queues(t_global_data *shared);
@@ -54,12 +49,21 @@ int				start_threads(t_global_data *shared, t_monitor *monitor_data);
 void			join_threads(t_global_data *shared, t_monitor *monitor_data, \
 int nb_created);
 
+// monitor
+void			*monitor(void *ptr);
+bool			is_burnout(t_coder *coder);
+bool			is_finish(t_coder *coder);
+
 // parsing
 int				ft_isdigit(int c);
 int				ft_atoi(const char *s);
 bool			is_valid_number(char **argv, int *temp);
 bool			set_value(char **argv, t_parsing *parse_value);
 bool			parsing(int argc, char **argv, t_parsing *parse_value);
+
+// print
+bool			print_error(char *message);
+bool			print_state(char *state, t_coder *coder);
 
 // queue
 t_waiting_queue	*new_node(void);
@@ -86,9 +90,5 @@ struct timespec *ts);
 long long int	get_curr_time_from_start(void);
 struct timespec	calcul_timespec(t_global_data *shared);
 bool			smart_sleep(long long int time_ms, t_coder *coder);
-
-// print
-bool			print_error(char *message);
-bool			print_state(char *state, t_coder *coder);
 
 #endif
