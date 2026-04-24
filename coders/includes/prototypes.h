@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:51:26 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/23 02:01:00 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/24 04:08:01 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ bool			actions(t_coder *coder, t_dongle_order *dongle_order);
 bool			compile(t_coder *coder, t_dongle_order *dongle_order);
 
 // clean
-void			clean_sim(t_global_data *shared);
-void			clean_mutexs(t_global_data *shared);
-bool			free_mutex(pthread_mutex_t *mutex);
-int				cleanup(t_global_data *shared, int state, int i);
+bool			clean_init(t_global_data *shared, int state, int i);
+void			destroy_loop_mutex(t_global_data *shared, int i, int state);
 
 // entities
 t_dongle		*create_dongle_list(t_global_data *shared);
@@ -79,17 +77,18 @@ void			*routine(void *ptr);
 bool			is_done(t_coder *coder);
 void			release_dongles(t_dongle_order *dongle_order);
 bool			check_cooldown(t_coder *coder, t_dongle *dongle);
-bool			can_i_take(t_coder *coder, t_dongle_order *dongle_order);
-// bool			wait_dongle(t_coder *coder, t_dongle_order *dongle_order);
-bool			take_dongles(t_coder *coder, t_dongle_order *dongle_order);
+bool			take_two_dongles(t_coder *coder, t_dongle_order *dongle_order);
 void			get_first_second(t_coder *coder, t_dongle_order	*dongle_order);
+bool			take_one_dongle(t_coder *coder, t_dongle *dongle, \
+struct timespec *ts);
 
 // time
 long long int	get_curr_time_from_start(void);
+struct timespec	calcul_timespec(t_global_data *shared);
 bool			smart_sleep(long long int time_ms, t_coder *coder);
 
 // print
 bool			print_error(char *message);
-bool			print_state(int coder_id, char *state, t_coder *coder);
+bool			print_state(char *state, t_coder *coder);
 
 #endif

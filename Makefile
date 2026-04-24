@@ -33,7 +33,6 @@ BASE_NAME := create_coders_list \
 			priority \
 			swap_coder \
 			actions \
-			can_i_take \
 			check_couldown \
 			compile \
 			debug \
@@ -42,20 +41,19 @@ BASE_NAME := create_coders_list \
 			refactor \
 			release_dongle \
 			routine \
-			take_dongles \
-			wait_dongle \
+			take_one_dongle \
+			take_two_dongles \
 			get_curr_time_from_start \
 			smart_sleep \
+			calcul_timespec \
 			get_is_run \
 			print_state \
 			print_error \
-			clean_sim \
-			free_mutex \
-			clean_mutexs \
 			ft_atoi \
 			get_sim_is_ready \
 			ft_isdigit \
-			cleanup
+			destroy_loop_mutex \
+			clean_init
 
 VPATH := $(SRCS_DIR): \
 		$(SRCS_DIR)/actions: \

@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   taken_dongles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/08 17:03:47 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/08 17:03:47 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/07 19:53:14 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/07 19:53:14 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <prototypes.h>
 #include <types.h>
 
-bool	debug(t_coder *coder)
+bool	take_two_dongles(t_coder *coder, t_dongle_order *dongle_order)
 {
-	long long int	debug_time;
+	bool			state;
+	struct timespec	ts;
 
-	if (!print_state("is debugging", coder))
+	state = true;
+	ts = calcul_timespec(coder->shared);
+	if (!take_one_dongle(coder, dongle_order->first, &ts))
+	{
+		pthread_mutex_unlock(&dongle_order->first->mutex_dongle);
 		return (false);
-	debug_time = coder->shared->parse_result.time_to_debug;
-	if (!smart_sleep(debug_time, coder))
+	}
+	if (!take_one_dongle(coder, dongle_order->second, &ts))
+	{
+		pthread_mutex_unlock(&dongle_order->first->mutex_dongle);
+		pthread_mutex_unlock(&dongle_order->second->mutex_dongle);
 		return (false);
+	}
 	return (true);
 }

@@ -6,14 +6,14 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 23:37:42 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/13 13:18:56 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/24 02:24:02 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 #include "structs.h"
 
-bool	print_state(int coder_id, char *state, t_coder *coder)
+bool	print_state(char *state, t_coder *coder)
 {
 	long long int	time_ms;
 
@@ -25,7 +25,7 @@ bool	print_state(int coder_id, char *state, t_coder *coder)
 		return (false);
 	}
 	pthread_mutex_lock(&coder->shared->mutex_print);
-	printf("%lld %d %s\n", time_ms, coder_id, state);
+	printf("%lld %d %s\n", time_ms, coder->id, state);
 	pthread_mutex_unlock(&coder->shared->mutex_print);
 	pthread_mutex_unlock(&coder->shared->mutex_is_run);
 	return (true);

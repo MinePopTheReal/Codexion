@@ -18,7 +18,7 @@ bool	compile(t_coder *coder, t_dongle_order *dongle_order)
 	long long int	compile_time;
 
 	pthread_mutex_lock(&coder->mutex_coder);
-	if (!print_state(coder->id, "is compiling", coder))
+	if (!print_state("is compiling", coder))
 	{
 		compile_time = coder->shared->parse_result.time_to_compile;
 		pthread_mutex_unlock(&coder->mutex_coder);

@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 18:45:06 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/21 19:38:14 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/24 04:12:29 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int	main(int argc, char **argv)
 		return (false);
 	if (!start_sim(&shared, &monitor_data))
 		state = false;
-	clean_sim(&shared);
+	clean_init(&shared, 7, shared.parse_result.number_of_coder - 1);
 	return (state - 1);
 }

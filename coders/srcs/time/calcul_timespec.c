@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_mutex.c                                       :+:      :+:    :+:   */
+/*   calcul_timespec.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/21 10:59:18 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/21 15:28:39 by tmalpert         ###   ########.fr       */
+/*   Created: 2026/04/24 04:05:11 by tmalpert          #+#    #+#             */
+/*   Updated: 2026/04/24 04:05:43 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 #include "types.h"
 
-bool	free_mutex(pthread_mutex_t *mutex)
+struct timespec	calcul_timespec(t_global_data *shared)
 {
-	bool	state;
+	struct timespec	ts;
+	struct timeval	tv;
 
-	state = true;
-	if (pthread_mutex_destroy(mutex) != 0)
-		state = print_error("Mutex destruction failed.");
-	return (state);
+	gettimeofday(&tv, NULL);
+	ts.tv_sec = tv.tv_sec + shared->parse_result.dongle_cooldown / 1000;
+	ts.tv_nsec = tv.tv_usec * 1000 + ((shared->parse_result.dongle_cooldown) \
+% 1000) * 1000000;
+	if (ts.tv_nsec >= 1000000000)
+	{
+		ts.tv_sec += ts.tv_nsec / 1000000000;
+		ts.tv_nsec %= 1000000000;
+	}
+	return (ts);
 }

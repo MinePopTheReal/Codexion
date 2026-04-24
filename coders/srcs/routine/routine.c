@@ -26,8 +26,6 @@ void	*routine(void *ptr)
 	{
 		if (!is_done(coder))
 			break ;
-		// if (!wait_dongle(coder, &dongle_order))
-		// 	break ;
 		if (!actions(coder, &dongle_order))
 			break ;
 	}

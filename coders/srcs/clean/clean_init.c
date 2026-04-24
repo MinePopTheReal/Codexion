@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   clean_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmalpert <tmalpert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 22:08:30 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/23 02:02:29 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/04/24 03:32:20 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 #include "types.h"
 
-int	cleanup(t_global_data *shared, int state, int i)
+bool	clean_init(t_global_data *shared, int state, int i)
 {
-	if (state > 5)
+	if (state >= 7)
 		free_queues(shared);
-	if (state > 4)
+	if (state > 6)
 		pthread_mutex_destroy(&shared->mutex_is_run);
-	if (state > 3)
+	if (state > 5)
 		pthread_mutex_destroy(&shared->mutex_print);
 	if (state >= 2)
-	{
-		while (--i >= 0)
-		{
-			pthread_cond_destroy(&shared->dongles[i].cond_wait_dongle);
-			pthread_mutex_destroy(&shared->coders[i].mutex_coder);
-			pthread_mutex_destroy(&shared->dongles[i].mutex_dongle);
-		}
-	}
-	if (state >= 1)
-	{
+		destroy_loop_mutex(shared, i, state);
+	if (shared->coders && state >= 1)
 		free(shared->coders);
+	if (shared->dongles && state >= 1)
 		free(shared->dongles);
-	}
 	return (false);
 }

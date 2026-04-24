@@ -17,7 +17,7 @@ bool	refactor(t_coder *coder)
 {
 	long long int	refactor_time;
 
-	if (!print_state(coder->id, "is refactoring", coder))
+	if (!print_state("is refactoring", coder))
 		return (false);
 	refactor_time = coder->shared->parse_result.time_to_refactor;
 	if (!smart_sleep(refactor_time, coder))
