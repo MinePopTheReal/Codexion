@@ -193,22 +193,6 @@ Output Format
 <time_from_start_in_ms> <coder_id> <action>
 ```
 ## Resources
-### Allowed Functions:
- - pthread_create
- - pthread_join
- - pthread_mutex_init
- - pthread_mutex_lock
- - pthread_mutex_unlock
- - gettimeofday
- - usleep
- - malloc
- - free
- - printf
- - fprintf
- - strcmp
- - atoi
-
-### online resource:
 - IA 
 - [man](https://man7.org/linux/man-pages/index.html)<br>
 - [How to use pthread](https://perso.ens-lyon.fr/francois.schwarzentruber/teaching/l3-prog/book/c_thread.html)
