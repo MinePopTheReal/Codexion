@@ -15,10 +15,8 @@
 
 bool	take_two_dongles(t_coder *coder, t_dongle_order *dongle_order)
 {
-	bool			state;
 	struct timespec	ts;
 
-	state = true;
 	ts = calcul_timespec(coder->shared);
 	if (!take_one_dongle(coder, dongle_order->first, &ts))
 	{
