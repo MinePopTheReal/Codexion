@@ -6,7 +6,7 @@
 /*   By: tmalpert <tmalpert@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 10:13:19 by tmalpert          #+#    #+#             */
-/*   Updated: 2026/04/24 17:55:01 by tmalpert         ###   ########.fr       */
+/*   Updated: 2026/06/18 17:13:58 by tmalpert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ struct s_parsing
 
 struct s_dongle
 {
-	int						id;
+	pthread_cond_t			cond_wait_dongle;
+	pthread_mutex_t			mutex_dongle;
 	long long int			release_time;
 	struct s_waiting_queue	*waiting_queue;
-	pthread_mutex_t			mutex_dongle;
-	pthread_cond_t			cond_wait_dongle;
+	int						id;
 };
 
 struct	s_waiting_queue
@@ -51,25 +51,25 @@ struct	s_waiting_queue
 
 struct s_coder
 {
-	int						id;
-	int						nb_compiles;
+	pthread_mutex_t			mutex_coder;
+	pthread_t				thread_coder;
 	long long int			last_compile;
 	struct s_dongle			*left_dongle;
 	struct s_dongle			*right_dongle;
 	struct s_global_data	*shared;
-	pthread_t				thread_coder;
-	pthread_mutex_t			mutex_coder;
+	int						nb_compiles;
+	int						id;
 };
 
 struct s_global_data
 {
-	bool					is_run;
-	bool					sim_is_ready;
 	struct s_coder			*coders;
 	struct s_dongle			*dongles;
 	struct s_parsing		parse_result;
 	pthread_mutex_t			mutex_is_run;
 	pthread_mutex_t			mutex_print;
+	bool					is_run;
+	bool					sim_is_ready;
 };
 
 struct s_monitor
